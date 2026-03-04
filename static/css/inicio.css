@@ -1,0 +1,98 @@
+/* static/css/inicio.css */
+/* ===== Comum: Início, Login e Cadastro ===== */
+
+/* 1) Remover scroll da página e garantir altura total */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* 2) Overlay cobre a viewport inteira e centraliza o conteúdo (com blur padrão dos modais) */
+.overlay {
+  position: fixed;
+  inset: 0;                 /* top/right/bottom/left: 0 */
+  display: grid;
+  place-items: center;      /* centro horizontal + vertical */
+  padding: 0;
+  background: rgba(0,0,0,.55);              /* escurecido */
+  backdrop-filter: blur(6px) saturate(110%); /* mesmo blur aprovado */
+  -webkit-backdrop-filter: blur(6px) saturate(110%);
+  z-index: 2000;
+}
+
+/* 3) Cards dessas telas: largura segura e sem margens extras */
+.initial-card,
+.login-card,
+.card-login,      /* se alguma tela usar esse nome */
+.cadastro-card,
+.auth-card {
+  margin: 0 auto !important;
+  max-width: min(560px, 92vw);
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+}
+
+/* 4) Centralizar a logo na tela inicial (quando existir) */
+.initial-card .logo-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.initial-card .logo-large {
+  display: block;
+  margin: 0 auto;
+  max-width: clamp(180px, 36vw, 320px);
+  height: auto;
+}
+
+/* 5) Telas muito baixas: permitir scroll apenas no overlay */
+@media (max-height: 540px) {
+  .overlay { overflow: auto; }
+}
+
+/* ===== Fix: neutralizar shell do app (só nessas telas) ===== */
+#main-content,
+.main-content,
+.content,
+.page-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;   /* evita que o fixed da overlay “siga” o container */
+}
+
+/* ===== Título padronizado (igual aos modais) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+.card-title{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  font-family:'Orbitron',sans-serif; font-size:1.35rem; color:#00e5ff;
+  margin:2px 0 8px;
+}
+.card-title i{ filter: drop-shadow(0 0 6px rgba(0,172,238,.6)); }
+.modal-divider{
+  height:1px; width:100%;
+  background: rgba(0,172,238,.55);
+  box-shadow: 0 0 8px rgba(0,172,238,.32);
+  border-radius: 1px; margin: 8px 0 14px;
+}
+
+/* ===== Inputs animados por passos ===== */
+.step-hidden {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity .35s ease, transform .35s ease;
+}
+.step-show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: opacity .35s ease, transform .35s ease;
+}
+/* Login/Cadastro: esconder mensagens Django */
+.overlay .messages,
+.overlay .messages li,
+.overlay [role="alert"] { display: none !important; }

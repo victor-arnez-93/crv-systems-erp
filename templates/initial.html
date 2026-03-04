@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}CRV Systems{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+{% endblock %}
+
+{% block content %}
+  <!-- Card principal -->
+  <div class="overlay">
+    <div class="initial-card">
+      <div class="logo-container">
+        <img
+          src="{% static 'icones/logo_crv.png' %}"
+          alt="CRV Logo"
+          class="logo-large"
+        />
+      </div>
+      <div class="btn-group">
+        <a href="{% url 'accounts:login' %}" class="button primary" title="Fazer login no sistema">ENTRAR</a>
+        <a href="{% url 'accounts:cadastro' %}" class="button primary" title="Registrar novo usuário" >CADASTRAR</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Efeito de onda
+    document.querySelectorAll('.button.primary').forEach(button => {
+      button.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        this.style.setProperty('--x', (e.clientX-rect.left)+'px');
+        this.style.setProperty('--y', (e.clientY-rect.top)+'px');
+        this.classList.add('clicked');
+        setTimeout(() => this.classList.remove('clicked'), 800);
+      });
+    });
+    // Animação borda
+    function initBorderEffect() {
+      const card = document.querySelector('.initial-card');
+      let frame;
+      function updateBorder() {
+        const duration = 4 + Math.random()*4;
+        card.style.setProperty('--border-duration', `${duration}s`);
+        frame = requestAnimationFrame(updateBorder);
+      }
+      if (card) updateBorder();
+      return () => cancelAnimationFrame(frame);
+    }
+    initBorderEffect();
+  </script>
+{% endblock %}

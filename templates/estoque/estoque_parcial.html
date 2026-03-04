@@ -1,0 +1,130 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/estoque.css' %}">
+<link rel="stylesheet" href="{% static 'css/configuracoes.css' %}">
+
+<div class="card-estoque cadastro-card animated-card" id="card-estoque">
+  <button class="close-card" id="btn-fechar-estoque" title="Fechar">
+    <i class="fas fa-times"></i>
+  </button>
+
+  <div class="card-title">
+    <img src="{% static 'icones/icone4.png' %}" alt="Ícone Estoque" class="card-title-icon">
+    <span style="font-family: 'Orbitron', sans-serif;">Gestão de estoque</span>
+  </div>
+
+  <div id="aviso-estoque" style="display:none;"></div>
+
+  <!-- 1) BUSCA + ADICIONAR -->
+  <div class="estoque-busca">
+    <form id="filtro-estoque-form" class="filtros-row">
+      <input type="text" name="busca_nome" placeholder="Nome do Produto" class="input-field">
+      <input type="text" name="busca_ean" placeholder="EAN/GTIN" class="input-field">
+      <input type="text" name="busca_fornecedor" placeholder="Fornecedor" class="input-field">
+      <button type="submit" class="button primary">BUSCAR</button>
+      <button type="button" id="btn-add-produto" class="button primary">+ NOVO PRODUTO</button>
+    </form>
+  </div>
+
+  <!-- 2) LISTA -->
+  <div class="estoque-lista" id="estoque-lista">
+    <div id="estoque-loading" class="loading neon-glow" style="display:none;">Carregando...</div>
+
+    <!-- viewport com 5 itens + scroll interno -->
+    <div class="estoque-scroll">
+      <ul id="estoque-ul" style="margin:0; padding:0;"></ul>
+    </div>
+
+    <div id="estoque-vazio" style="display:none; margin-top:24px; text-align:center; color:#777;">
+      Nenhum produto encontrado.
+    </div>
+  </div>
+
+  <!-- 3) SUGESTÕES -->
+  <div id="sugestoes-compra" class="card-sugestao">
+    <h3>Sugestões de Compra</h3>
+    <ul id="sugestoes-ul"></ul>
+  </div>
+
+  <!-- 4) BOTÕES -->
+  <div class="estoque-botoes">
+    <div class="btn-group btn-row">
+      <button type="button" id="btn-importar-xml" class="button primary btn-importar-xml">IMPORTAR XML (NF-e)</button>
+      <button type="button" id="btn-importar-pasta" class="button primary btn-importar-pasta">IMPORTAR PASTA XMLs (NF-e)</button>
+      <button type="button" id="btn-atualizar-estoque" class="button primary btn-atualizar-estoque">ATUALIZAR ESTOQUE</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="inputImportarXML" accept=".xml" style="display:none;">
+<input type="file" id="inputImportarPastaXML" accept=".xml" multiple webkitdirectory directory style="display:none;">
+
+<!-- MODAL: Novo Produto (padrão CRV) -->
+<div id="modalAddProduto" class="modal-view" style="display:none;">
+  <div class="modal-empresa-card modal-senha-card">
+    <div class="modal-empresa-title">
+      <i class="fa fa-box"></i>
+      Adicionar Produto
+    </div>
+    <hr class="modal-empresa-linha">
+
+    <form id="form-adicionar-produto" autocomplete="off">
+      <div class="modal-form-group">
+        <label style="display:none">Nome do Produto</label>
+        <input type="text" name="nome" class="input-field" required placeholder="Nome do Produto">
+      </div>
+
+      <div class="modal-form-group">
+        <label style="display:none">EAN / GTIN</label>
+        <input type="text" name="codigo_barras" class="input-field" required placeholder="EAN / GTIN">
+      </div>
+
+      <div class="modal-form-group">
+        <label style="display:none">Quantidade</label>
+        <input type="number" name="quantidade" class="input-field" required min="1" placeholder="Quantidade">
+      </div>
+
+      <div class="modal-form-group">
+        <label style="display:none">Valor Unitário (R$)</label>
+        <input type="number" name="valor_unitario" class="input-field" step="0.01" min="0" required placeholder="Valor Unitário (R$)">
+      </div>
+
+      <div class="modal-form-group">
+        <label style="display:none">Fornecedor</label>
+        <input type="text" name="fornecedor" class="input-field" placeholder="Fornecedor">
+      </div>
+
+      <div class="modal-form-group">
+        <label style="display:none">Número NF</label>
+        <input type="text" name="numero_nf" class="input-field" placeholder="Número NF">
+      </div>
+
+      <div class="modal-form-group">
+        <label style="display:none">Data NF</label>
+        <input type="date" name="data_nf" class="input-field" placeholder="Data NF">
+      </div>
+
+      <div class="modal-form-group">
+        <button type="submit" class="button primary">SALVAR</button>
+        <button type="button" class="button primary" id="cancelar-modal-produto">FECHAR</button>
+      </div>
+
+      <div id="erro-adicionar-produto" class="form-erro" style="margin-top:8px;color:#ff7575;min-height:22px;text-align:center;"></div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Remover Produto (mantido) -->
+<div id="modal-remover-produto" class="modal-view" style="display:none;">
+  <div class="modal-empresa-card">
+    <div class="modal-empresa-title"><i class="fa fa-trash"></i> Remover Produto</div>
+    <hr class="modal-empresa-linha">
+    <div id="texto-remover-produto" class="label-padrao" style="text-align:center;"></div>
+    <div class="modal-form-group">
+      <button type="button" class="button primary" id="confirmar-remover-produto">REMOVER</button>
+      <button type="button" class="button" id="cancelar-remover-produto">CANCELAR</button>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/estoque.js' %}" data-spa-script="1"></script>

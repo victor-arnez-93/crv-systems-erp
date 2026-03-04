@@ -1,0 +1,206 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/configuracoes.css' %}">
+
+{# MODAL CADASTRO EMPRESA — aparece só se o CNPJ não estiver preenchido #}
+{% if not form_empresa.instance.cnpj %}
+<div id="modal-cadastro-empresa">
+  <div class="modal-empresa-card">
+    <div class="modal-empresa-title">
+      <i class="fa fa-building"></i>
+      Cadastro Inicial da Empresa
+    </div>
+    <p class="modal-empresa-desc">
+      Preencha os dados essenciais para liberar o uso do sistema.<br>
+      <span style="font-size:0.96em;">Sugestão: utilize os dados da NF-e ou digite seus dados reais.</span>
+    </p>
+    <form method="post" id="form-empresa-modal" class="modal-empresa-form" autocomplete="off">
+      {% csrf_token %}
+      <div class="modal-empresa-grid-form">
+        <div class="modal-form-group">
+          <label for="id_nome">Nome da Empresa</label>
+          <input type="text" name="nome" maxlength="120" class="input-field" id="id_nome" required placeholder="Loja Tech Max" value="Loja Tech Max">
+        </div>
+        <div class="modal-form-group">
+          <label for="id_cnpj">CNPJ</label>
+          <input type="text" name="cnpj" maxlength="18" class="input-field" id="id_cnpj" required placeholder="00.000.000/0000-00" value="12.345.678/0001-95">
+        </div>
+        <div class="modal-form-group">
+          <label for="id_email">E-mail</label>
+          <input type="email" name="email" maxlength="254" class="input-field" id="id_email" placeholder="contato@techmax.com.br">
+        </div>
+        <div class="modal-form-group">
+          <label for="id_telefone">Telefone</label>
+          <input type="text" name="telefone" maxlength="20" class="input-field" id="id_telefone" placeholder="(11) 99999-9999">
+        </div>
+        <div class="modal-form-group">
+          <label for="id_endereco">Endereço</label>
+          <input type="text" name="endereco" maxlength="200" class="input-field" id="id_endereco" placeholder="Rua dos Eletrônicos, 123">
+        </div>
+        <div class="modal-form-group">
+          <label for="id_cidade">Cidade</label>
+          <input type="text" name="cidade" maxlength="60" class="input-field" id="id_cidade" placeholder="São Paulo">
+        </div>
+      </div>
+      <div class="modal-form-group modal-form-group-estado">
+        <label for="id_estado">Estado</label>
+        <input type="text" name="estado" maxlength="2" class="input-field" id="id_estado" placeholder="SP">
+      </div>
+      <div class="modal-form-group">
+        <button type="submit" class="button primary">
+          <i class="fa fa-save"></i> Salvar dados
+        </button>
+      </div>
+      <div id="modal-empresa-mensagem"></div>
+    </form>
+  </div>
+</div>
+{% endif %}
+
+<div class="config-container">
+
+  <!-- COLUNA ESQUERDA -->
+  <div class="config-col">
+    <!-- Minha Conta -->
+    <div>
+      <div class="config-title">
+        <i class="fa fa-user"></i>
+        Minha Conta
+      </div>
+      <div class="label-padrao">Usuário logado: <strong>{{ usuario_logado }}</strong></div>
+      <div class="label-padrao">Horário de login: <strong>{{ horario_login }}</strong></div>
+      <button id="btn-alterar-senha" class="button primary" style="margin-top:20px;">
+        <i class="fa fa-lock"></i> ALTERAR SENHA
+      </button>
+    </div>
+
+    <!-- MODAL ALTERAR SENHA -->
+    <div id="modal-alterar-senha" class="modal-view" style="display:none;">
+      <div class="modal-empresa-card modal-senha-card">
+        <div class="modal-empresa-title">
+          <i class="fa fa-lock"></i>
+          Alterar Senha
+        </div>
+        <hr class="modal-empresa-linha">
+        <form id="form-alterar-senha" autocomplete="off">
+          <div class="modal-form-group">
+            <input type="password" name="old_password" class="input-field" placeholder="Senha atual" required>
+          </div>
+          <div class="modal-form-group">
+            <input type="password" name="new_password1" class="input-field" placeholder="Nova senha" required>
+          </div>
+          <div class="modal-form-group">
+            <input type="password" name="new_password2" class="input-field" placeholder="Repita nova senha" required>
+          </div>
+          <div class="modal-form-group">
+            <button type="submit" class="button primary">Salvar nova senha</button>
+            <button type="button" id="btn-fechar-senha" class="button primary">
+              <i class="fa fa-times"></i> Fechar
+            </button>
+          </div>
+          <div id="msg-alterar-senha" style="margin-top:7px; min-height:22px; font-size:1.03rem; text-align:center;"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL DETALHES EMPRESA -->
+    <div id="modal-detalhes-empresa" class="modal-view" style="display:none;">
+      <div class="modal-empresa-card">
+        <div class="modal-empresa-title">
+          <i class="fa fa-building"></i>
+          Detalhes da Empresa
+        </div>
+        <hr class="modal-empresa-linha">
+        <div class="modal-empresa-conteudo">
+          <div><strong>Nome:</strong> {{ form_empresa.instance.nome }}</div>
+          <div><strong>CNPJ:</strong> {{ form_empresa.instance.cnpj }}</div>
+          <div><strong>Email:</strong> {{ form_empresa.instance.email }}</div>
+          <div><strong>Telefone:</strong> {{ form_empresa.instance.telefone }}</div>
+          <div><strong>Endereço:</strong> {{ form_empresa.instance.endereco }}</div>
+          <div><strong>Cidade:</strong> {{ form_empresa.instance.cidade }}</div>
+          <div><strong>Estado:</strong> {{ form_empresa.instance.estado }}</div>
+        </div>
+        <div class="modal-form-group">
+          <button type="button" class="button primary" id="btn-fechar-detalhes">
+            <i class="fa fa-times"></i> Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DADOS DA EMPRESA -->
+    <div style="width: 100%;">
+      <div class="config-title" style="margin-top:32px;">
+        <i class="fa fa-building"></i>
+        Empresa Cadastrada
+      </div>
+      <button type="button" class="button primary" id="btn-ver-detalhes" style="width: 210px; margin: 24px auto 0 auto; display: flex; align-items: center; justify-content: center; gap: 10px;">
+        <i class="fa fa-eye"></i> Ver detalhes
+      </button>
+    </div>
+
+    <!-- Tema -->
+    <div style="margin-top:36px;">
+      <div class="config-title">
+        <i class="fa fa-paint-brush"></i>
+        Tema do sistema
+      </div>
+      <div class="tema-selector">
+        <div class="tema-carousel">
+          <button type="button" class="tema-arrow tema-arrow-left">&lt;</button>
+          <div class="tema-list"></div>
+          <button type="button" class="tema-arrow tema-arrow-right">&gt;</button>
+        </div>
+        <div id="tema-nome-exibido" class="label-padrao" style="margin-top:6px; text-align:center; font-weight:600;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUNA DIREITA -->
+  <div class="config-col">
+    <!-- Sobre o sistema -->
+    <div>
+      <div class="config-title">
+        <i class="fa fa-circle-info"></i>
+        Sobre o sistema
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;color:#aee9ff;font-size:0.97rem;">
+        <img src="{% static 'icones/logo_crv.png' %}" alt="Logo CRV" style="max-width:250px;margin-bottom:12px;">
+        <div><strong>Nome:</strong> CRV Systems Gestor Financeiro</div>
+        <div><strong>Versão:</strong> 1.0</div>
+        <div><strong>Desenvolvedores:</strong> Gustavo Capalbo, Raul Soares, Victor Arnez</div>
+        <div>
+          <strong>Contato:</strong>
+          <a href="mailto:crv.solucoesti@gmail.com" style="color:#7ad5ff;text-decoration:underline;">
+            crv.solucoesti@gmail.com
+          </a>
+        </div>
+        <div>
+          <strong>Instagram:</strong>
+          <a href="https://instagram.com/crv_solucoes.ti" target="_blank" style="color:#7ad5ff;text-decoration:underline;">
+            crv_solucoes.ti
+          </a>
+        </div>
+        <div style="margin-top:8px;"><strong>Descrição:</strong><br>
+          Sistema de gestão completo para controle financeiro, estoque e cadastros, desenvolvido com Django e SPA.
+        </div>
+      </div>
+    </div>
+
+    <!-- Licença -->
+    <div style="margin-top:36px;">
+      <div class="config-title">
+        <i class="fa fa-certificate"></i>
+        Licença
+      </div>
+      <div class="licenca-text">
+        Esse sistema é licenciado para uso comercial.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/configuracoes.js' %}" data-spa-script="1"></script>
+<script data-spa-script="1">
+  if (window.inicializarConfiguracoesSPA) window.inicializarConfiguracoesSPA();
+</script>

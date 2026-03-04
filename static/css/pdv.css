@@ -1,0 +1,161 @@
+/* ===== PDV — CRV Systems (escopo: [data-context="pdv"]) ===== */
+[data-context="pdv"] .card-title {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: 10px;
+  margin: 6px 0 18px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  letter-spacing: .5px;
+  font-size: 20px;
+  text-align: center;
+}
+[data-context="pdv"] .card-title .card-title-icon {
+  font-size: 22px;
+  color: #00acee;
+  filter: drop-shadow(0 0 6px rgba(0,172,238,.55));
+}
+
+/* Topbar */
+[data-context="pdv"] .pdv-topbar {
+  display: grid;
+  grid-template-columns: 1.4fr .3fr auto;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+@media (max-width: 960px) {
+  [data-context="pdv"] .pdv-topbar { grid-template-columns: 1fr 1fr; }
+  [data-context="pdv"] .pdv-actions { grid-column: 1 / -1; }
+}
+[data-context="pdv"] .pdv-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  color: #a9b8dd;
+}
+[data-context="pdv"] .input-field {
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,172,238,.28);
+  background: rgba(8,12,24,.6);
+  color: #e8ecff;
+  outline: none;
+  transition: box-shadow .14s ease, border-color .14s ease, background .14s ease;
+}
+[data-context="pdv"] .input-field:focus {
+  border-color: #00acee;
+  box-shadow: 0 0 0 2px rgba(0,172,238,.18);
+  background: rgba(10,16,30,.75);
+}
+[data-context="pdv"] .pdv-qty { max-width: 160px; }
+[data-context="pdv"] .pdv-actions { display: flex; gap: 10px; align-items: end; }
+[data-context="pdv"] .pdv-actions .button { min-height: 48px;}
+
+/* Corpo */
+[data-context="pdv"] .pdv-body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 1100px) {
+  [data-context="pdv"] .pdv-body { grid-template-columns: 1fr; }
+}
+[data-context="pdv"] .card {
+  background: var(--card-bg, #0e1324);
+  color: var(--card-fg, #e8ecff);
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 0 0 2px rgba(0,172,238,.18), 0 0 26px rgba(0,172,238,.16);
+}
+
+/* Lista */
+[data-context="pdv"] .pdv-lista-head {
+  font-family: 'Orbitron', sans-serif;
+  margin: 4px 0 8px;
+  color: #98a9d9;
+}
+[data-context="pdv"] .pdv-tabela { width: 100%; }
+[data-context="pdv"] .pdv-row {
+  display: grid;
+  grid-template-columns: 80px 140px 1.8fr 110px 120px 140px 120px;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+@media (max-width: 1200px) {
+  [data-context="pdv"] .pdv-row { grid-template-columns: 60px 120px 1.6fr 90px 100px 120px 100px; }
+}
+[data-context="pdv"] .pdv-head {
+  font-size: 12.5px;
+  color: #a9b8dd;
+  text-transform: uppercase;
+}
+[data-context="pdv"] .pdv-rows { max-height: 48vh; overflow: auto; }
+[data-context="pdv"] .pdv-row .c-acoes a {
+  color: #ffd166;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+[data-context="pdv"] .pdv-row .c-acoes a:hover {
+  text-shadow: 0 0 10px rgba(255,209,102,.55);
+  border-color: rgba(255,209,102,.7);
+}
+
+/* Totais */
+[data-context="pdv"] .pdv-totais .pdv-totais-line {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 10px 0;
+}
+[data-context="pdv"] .pdv-totais strong { font-size: 22px; color: #fff; }
+[data-context="pdv"] .pdv-totais input.input-field { max-width: 180px; text-align: right; }
+
+/* Título do PDV — mesmo alinhamento dos outros cards */
+#card-pdv .card-title{
+  display:flex;
+  align-items:center;
+  gap:8px;              /* mesma aproximação do “Gestão de estoque” */
+  margin:0 0 12px 0;
+}
+
+/* Ícone (Font Awesome) com o mesmo “peso visual” do PNG dos outros */
+#card-pdv .card-title .card-title-icon{
+  font-size:26px;       /* ajuste fino: ↑ ou ↓ 1px se precisar */
+  line-height:1;
+  color:var(--azul-neon);
+  filter:drop-shadow(0 0 6px rgba(0,172,238,.45));
+  transform:translateY(22px); /* microalinhamento vertical do glifo */
+}
+
+/* PDV — somente cores (mantido) */
+#pdvBtnNovaVenda { color:#22e38a !important; }           /* verde */
+#pdvBtnCancelarItem { color:#ff4d6d !important; }        /* vermelho */
+.pdv-lista-head { color:#e8ecff !important; }            /* "Lista de produtos" = branco */
+
+/* Cabeçalho da tabela — cor aprovada */
+.pdv-row.pdv-head,
+#card-pdv .pdv-row.pdv-head > div { color:#ffd166 !important; }
+
+/* === Tipografia — padronização Roboto semibold para ações e cabeçalho === */
+#card-pdv #pdvBtnNovaVenda,
+#card-pdv #pdvBtnCancelarItem,
+#pdvBtnNovaVenda,
+#pdvBtnCancelarItem{
+  font-family:'Roboto','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  font-weight:600;
+  letter-spacing:.2px;
+  line-height:1.2;
+}
+
+/* Cabeçalho da lista (Nº, CÓDIGO, DESCRIÇÃO, QTD, VR. UNIT., TOTAL, AÇÕES) */
+#card-pdv .pdv-row.pdv-head,
+#card-pdv .pdv-row.pdv-head > div,
+.pdv-row.pdv-head,
+#card-pdv .pdv-row.pdv-head > div{
+  font-family:'Roboto','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  font-weight:600;
+  letter-spacing:.3px;
+}

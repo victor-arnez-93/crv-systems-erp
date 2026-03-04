@@ -1,0 +1,136 @@
+{% load static %}
+
+<div class="dashboard-main-grid">
+
+  <!-- HEADER INTERNO DA DASHBOARD -->
+<!-- HEADER INTERNO DA DASHBOARD -->
+<div class="dashboard-header-area">
+  <div class="dashboard-card-grande">
+    <h1 class="dashboard-title-main animate__animated animate__slideInDown">
+      DASHBOARD - INÍCIO
+    </h1>
+    <div class="dashboard-user-welcome animate__animated animate__slideInLeft">
+      Bem-vindo, {{ usuario|default:"Usuário" }}!
+    </div>
+    <div class="dashboard-subtitle animate__animated animate__slideInRight">
+      Aqui você acompanha rapidamente o status do seu estoque e financeiro.
+    </div>
+    <div class="dashboard-frase-dia animate__animated animate__fadeInUp">
+      <span id="typewriter-text">“Quem domina a tecnologia domina o futuro.”</span>
+    </div>
+  </div>
+</div>
+
+  <!-- LINHA 1: CARDS + VISÃO GERAL -->
+  <div class="linha-dashboard linha-1">
+    <div class="col-1">
+      <div class="cards-grid">
+        <div class="dashboard-card card-produtos">
+          <div class="dashboard-card-title font-orbitron">
+            <i class="fas fa-box"></i> Produtos em estoque
+          </div>
+          <div class="dashboard-card-value roboto" id="produtosEstoque">0</div>
+        </div>
+        <div class="dashboard-card card-valor">
+          <div class="dashboard-card-title font-orbitron">
+            <i class="fas fa-coins"></i> Valor total estoque
+          </div>
+          <div class="dashboard-card-value roboto" id="valorEstoque">R$ 0,00</div>
+        </div>
+        <div class="dashboard-card card-avisos">
+          <div class="dashboard-card-title font-orbitron">
+            <i class="fas fa-exclamation-triangle"></i> Avisos
+          </div>
+          <div class="dashboard-card-value roboto" id="produtosCriticos">
+            0 produtos críticos
+          </div>
+        </div>
+        <div class="dashboard-card card-receber">
+          <div class="dashboard-card-title font-orbitron">
+            <i class="fas fa-arrow-up"></i> A receber hoje
+          </div>
+          <div class="dashboard-card-value roboto" id="receberHoje">R$ 0,00</div>
+        </div>
+        <div class="dashboard-card card-pagar">
+          <div class="dashboard-card-title font-orbitron">
+            <i class="fas fa-arrow-down"></i> A pagar hoje
+          </div>
+          <div class="dashboard-card-value roboto" id="pagarHoje">R$ 0,00</div>
+        </div>
+        <div class="dashboard-card card-mes">
+          <div class="dashboard-card-title font-orbitron">
+            <i class="fas fa-calendar-alt"></i> Recebimentos do mês
+          </div>
+          <div class="dashboard-card-value roboto" id="recebimentosMes">R$ 0,00</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2">
+      <div id="cardVisaoMes" class="dashboard-visao-geral-mes">
+        <span class="visao-geral-title">VISÃO GERAL DO MÊS</span>
+        <div class="visao-geral-conteudo" style="margin-top:22px;">
+          <span style="color:#b1eaff;">
+            Entradas: <span id="entradasMes">R$ 0,00</span> |
+            Saídas: <span id="saidasMes">R$ 0,00</span><br>
+            <span id="destaqueMes" style="color:#ffe44a; font-size:1.09em;">
+              Nenhum destaque até o momento.
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINHA 2: CALENDÁRIO + MINI GRÁFICO -->
+  <div class="linha-dashboard linha-2">
+    <div class="dashboard-dupla-bloco">
+      <div class="dashboard-card-50 dashboard-calendar" id="calendario"></div>
+      <div class="dashboard-card-50 dashboard-mini-grafico">
+        <div class="grafico-title font-orbitron">
+          Fluxo de Caixa (últimos 6 meses)
+        </div>
+        <canvas id="graficoFluxoCaixa"></canvas>
+      </div>
+    </div>
+  </div>
+
+<!-- LINHA 3: INSIGHT | NOTÍCIAS | FOTO DO DIA -->
+<div class="linha-dashboard linha-3">
+  <!-- Insight -->
+  <div class="dashboard-bloco-insight">
+    <div class="insight-title font-orbitron">
+      <i class="fas fa-lightbulb" style="color:#ffe44a"></i> Insights do Dia
+    </div>
+    <div id="insightDia" class="font-roboto"></div>
+    <div id="insightFonte" class="font-roboto"></div>
+  </div>
+  <!-- Notícias -->
+  <div class="dashboard-bloco-noticias">
+    <div class="noticias-title font-orbitron">
+      <i class="fas fa-newspaper" style="color:#ffe44a"></i> Notícias de Tecnologia
+    </div>
+    <ul id="noticiasTecnologia" class="noticias-list">
+      <li>Sem notícias recentes agora.</li>
+    </ul>
+  </div>
+  <!-- Foto do Dia -->
+  <div class="dashboard-bloco-foto">
+    <div class="apod-title font-orbitron">
+      <i class="fas fa-camera-retro" style="color:#ffe44a"></i> Foto do Dia
+    </div>
+    <img id="imagemDia"
+         src="{% static 'icones/logo_crv.png' %}"
+         alt="Imagem do Dia">
+    <div class="apod-source font-roboto">
+      Por: <span id="autorImagemDia">-</span><br>
+      Fonte:
+      <a id="fonteImagemDia" href="https://unsplash.com" target="_blank">
+        Unsplash
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- Script de tela único -->
+<script src="{% static 'js/dashboard.js' %}" data-spa-script="1"></script>

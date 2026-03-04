@@ -1,0 +1,139 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/financeiro.css' %}">
+
+<div class="card-financeiro cadastro-card animated-card" id="card-financeiro">
+    <!-- Botão de fechar -->
+    <button class="close-card" id="btn-fechar-financeiro" title="Fechar">
+        <i class="fas fa-times"></i>
+    </button>
+
+    <!-- Título com ícone -->
+    <div class="card-title">
+        <img src="{% static 'icones/icone5.png' %}" alt="Financeiro" class="card-title-icon"/>
+        <span style="font-family: 'Orbitron', sans-serif;">Relatório financeiro</span>
+    </div>
+
+    <!-- Filtros -->
+    <form id="filtros-financeiro-form" class="financeiro-filtros" style="width:100%;">
+        <div class="filtros-row" style="gap:14px;">
+            <select name="periodo" style="max-width:170px;">
+                <option value="">Todos</option>
+                <option value="hoje">Hoje</option>
+                <option value="semana">Última semana</option>
+                <option value="mes">Mês</option>
+                <option value="personalizado">Personalizado</option>
+            </select>
+            <input class="input-field" type="date" name="data_de" style="display:none;" id="dataDe">
+            <span style="display:none;" id="ateLabel">até</span>
+            <input class="input-field" type="date" name="data_ate" style="display:none;" id="dataAte">
+            <select name="tipo" style="max-width:130px;">
+                <option value="">Todos</option>
+                <option value="entrada">Entradas</option>
+                <option value="saida">Saídas</option>
+            </select>
+            <button class="button primary" style="margin-left:10px;">BUSCAR</button>
+        </div>
+    </form>
+
+    <!-- Gráfico -->
+    <div class="financeiro-grafico-box">
+        <h3 class="grafico-title">Balanço Financeiro</h3>
+        <canvas id="financeChart" width="600" height="260"></canvas>
+    </div>
+
+    <!-- Tabela de resultados (agora com viewport de 5 linhas + scroll interno) -->
+    <div class="financeiro-tabela-box">
+        <div class="financeiro-tabela-scroll">
+            <table class="financeiro-tabela">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Data</th>
+                        <th>Valor</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for mov in movimentacoes %}
+                <tr>
+                    <td>
+                        {% if mov.tipo == 'entrada' %}
+                            <span style="color:lime;font-weight:bold;">{{ mov.get_tipo_display }}</span>
+                        {% else %}
+                            <span style="color:#f15;font-weight:bold;">{{ mov.get_tipo_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ mov.data|date:"d/m/Y" }}</td>
+                    <td>R$ {{ mov.valor|floatformat:2 }}</td>
+                    <td>{{ mov.descricao }}{% if mov.produto_nome %} ({{ mov.produto_nome }}){% endif %}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align:center;color:#999;">Nenhuma movimentação encontrada.</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin:14px 0 0 0; text-align:right;">
+            <b>Total de Entradas:</b>
+            <span style="color:lime;">R$ {{ total_entradas|floatformat:2 }}</span> &nbsp;&nbsp;
+            <b>Total de Saídas:</b>
+            <span style="color:#f15;">R$ {{ total_saidas|floatformat:2 }}</span> &nbsp;&nbsp;
+            <b>Saldo:</b>
+            {% if saldo >= 0 %}
+              <span style="color:lime;">R$ {{ saldo|floatformat:2 }}</span>
+            {% else %}
+              <span style="color:#f15;">R$ {{ saldo|floatformat:2 }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="financeiro-botoes btn-group" style="gap: 40px; justify-content: center; margin-top: 36px;">
+        <button type="button" class="button primary btn-alternar-grafico">ALTERNAR GRÁFICO</button>
+        <button type="button" class="button primary btn-exportar-pdf">EXPORTAR PDF</button>
+        <button type="button" class="button primary btn-exportar-excel">EXPORTAR EXCEL</button>
+    </div>
+</div>
+
+<!-- Exportar PDF -->
+<form id="formExportarPDF" action="/financeiro/exportar_pdf/" method="get" target="_blank" style="display:none;">
+    <input type="hidden" name="periodo" id="exportPDFPeriodo">
+    <input type="hidden" name="tipo" id="exportPDFTipo">
+    <input type="hidden" name="data_de" id="exportPDFDataDe">
+    <input type="hidden" name="data_ate" id="exportPDFDataAte">
+</form>
+<!-- Exportar Excel -->
+<form id="formExportarExcel" action="/financeiro/exportar_excel/" method="get" target="_blank" style="display:none;">
+    <input type="hidden" name="periodo" id="exportExcelPeriodo">
+    <input type="hidden" name="tipo" id="exportExcelTipo">
+    <input type="hidden" name="data_de" id="exportExcelDataDe">
+    <input type="hidden" name="data_ate" id="exportExcelDataAte">
+</form>
+
+<!-- Chart.js e dados gráficos -->
+<script>
+  // Sempre declare a variável com window para SPA!
+  window.financeiroDadosGrafico = {
+    total_entradas: {{ total_entradas|floatformat:2|default:'0' }},
+    total_saidas: {{ total_saidas|floatformat:2|default:'0' }},
+    saldo: {{ saldo|floatformat:2|default:'0' }},
+    movimentacoes: [
+      {% for mov in movimentacoes %}
+        {
+          tipo: "{{ mov.tipo }}",
+          valor: {{ mov.valor|floatformat:2|default:'0' }},
+          data: "{{ mov.data|date:'Y-m-d' }}",
+          descricao: "{{ mov.descricao|escapejs }}"
+        }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  };
+</script>
+<script src="{% static 'js/financeiro.js' %}" data-spa-script="1"></script>
+<script data-spa-script="1">
+  if (window.inicializarFinanceiroSPA) window.inicializarFinanceiroSPA();
+</script>

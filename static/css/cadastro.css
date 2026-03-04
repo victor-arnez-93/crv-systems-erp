@@ -1,0 +1,138 @@
+/* ====== CRV Systems – Clientes/Fornecedores ====== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* Card base da tela */
+.card-estoque { max-width:1140px; width:96vw; margin:0 auto; }
+
+/* Seções internas */
+.cadastro-card{
+  width:100%;
+  background: rgba(22,28,38,0.97);
+  border: 2px solid #00acee99;
+  border-radius: 22px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 0 24px 2px #00bfff42;
+}
+
+/* Título principal */
+.screen-title{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:24px; }
+.screen-title .card-title-icon{ width:36px; height:36px; filter:drop-shadow(0 0 7px #00acee88); }
+.screen-title span{ font-family:'Orbitron',sans-serif; font-size:1.65rem; font-weight:600; color:#fff; text-shadow:0 0 7px #00acee33; }
+
+/* Subtítulos */
+.section-title{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:16px; }
+.section-title .card-title-icon{ width:32px; height:32px; filter:drop-shadow(0 0 7px #00acee88); }
+.section-title span{ font-family:Roboto,sans-serif; font-size:1.25rem; color:#fff; }
+
+/* Linha de ações */
+.linha-acoes{ display:flex; gap:10px; justify-content:center; align-items:center; margin-bottom:18px; }
+.busca-input{
+  background:#171b23; color:#fff; border:2px solid #00acee; border-radius:11px;
+  padding:10px 16px; font-size:1rem; width:290px; box-shadow:0 0 9px 0 #00acee33;
+}
+.busca-input:focus{ border-color:#00bfff; box-shadow:0 0 15px 2px #00bfff55; outline:none; }
+
+/* Tabelas */
+.cadastro-table-wrapper{ width:100%; position:relative; z-index:1; overflow-x:auto; padding-bottom:6px; }
+.cadastro-table-wrapper.clientes-scroll,
+.cadastro-table-wrapper.fornecedores-scroll{ max-height:360px; overflow-y:auto; }
+
+.cadastro-table{ min-width:700px; width:100%; border-collapse:collapse; table-layout:fixed; }
+.cadastro-table thead th{
+  text-align:left; color:#e8ecff; font-family:Roboto,sans-serif; font-weight:600;
+  padding:10px 6px; border-bottom:1px solid rgba(255,255,255,0.18); line-height:22px;
+}
+.cadastro-table th, .cadastro-table td{
+  padding:11px 6px; color:#fff; font-family:Roboto,sans-serif; font-size:1rem;
+  border-bottom:1px solid rgba(255,255,255,0.1); vertical-align:middle;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.cadastro-table tbody tr{ cursor:pointer; }
+.cadastro-table tbody tr:hover{ background:rgba(0,172,238,0.1); }
+
+/* Ações como links coloridos (com brilho no hover – igual Fluxo de Caixa) */
+.acao-link{ font-weight:700; margin-right:12px; cursor:pointer; text-decoration:none; transition: text-shadow .18s ease, transform .18s ease; }
+.acao-link.editar{ color:#ffd166; }
+.acao-link.excluir{ color:#ff7b86; }
+.acao-link:hover{ text-decoration:underline; transform: translateY(-0.5px); }
+.acao-link.editar:hover{ text-shadow: 0 0 6px rgba(255,209,102,.85), 0 0 12px rgba(255,209,102,.55); }
+.acao-link.excluir:hover{ text-shadow: 0 0 6px rgba(255,123,134,.9), 0 0 12px rgba(255,123,134,.6); }
+
+/* ==== Modais (padrão Estoque/Config com BLUR correto) ==== */
+#modalNovoCliente, #modalNovoFornecedor, #modalViewCliente, #modalViewFornecedor{
+  position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+  background: rgba(0,0,0,0.55);     /* escurece */
+  backdrop-filter: blur(6px) saturate(110%); /* blur igual outras telas */
+  -webkit-backdrop-filter: blur(6px) saturate(110%);
+  z-index: 1999;
+}
+#modalNovoCliente.active, #modalNovoFornecedor.active, #modalViewCliente.active, #modalViewFornecedor.active{ display:flex !important; }
+
+.modal-card{
+  background: rgba(8,12,24,.96);
+  border: 2px solid rgba(0,172,238,.45);
+  box-shadow: 0 0 16px rgba(0,172,238,.28);
+  color:#fff; border-radius: 16px; padding: 18px 20px; position: relative;
+  width: min(760px, 92vw);
+}
+.modal-card.modal-scroll{ max-height:80vh; overflow-y:auto; padding-right:12px; }
+.modal-card.modal-narrow{ width:min(520px, 92vw); }    /* estreito: Novo/Editar */
+.modal-card.modal-compact{ width:min(520px, 92vw); }   /* estreito: Visualização */
+
+.modal-card .card-title{ display:flex; align-items:center; justify-content:center; gap:10px; font-family:'Orbitron',sans-serif; font-size:1.25rem; color:#00e5ff; margin:2px 0 10px; }
+
+/* Linha do cabeçalho padronizada */
+.modal-divider{
+  height:1px; width:100%;
+  background: rgba(0,172,238,.55);
+  box-shadow: 0 0 8px rgba(0,172,238,.32);
+  border-radius: 1px; margin: 8px 0 14px;
+}
+
+.close-modal{ position:absolute; top:12px; right:12px; background:none; border:none; color:#00acee; font-size:1.6rem; cursor:pointer; padding:4px 8px; border-radius:50%; }
+.close-modal:hover{ background:rgba(0,172,238,0.13); color:#fff; }
+
+/* Forms: 1 coluna */
+.modal-grid-form{ display:grid; gap:12px; }
+.modal-grid-form.one-col{ grid-template-columns:1fr; }
+.modal-card label{ font-size:.95rem; color:#cfe9ff; margin-bottom:4px; display:block; }
+.modal-card .input-field{ min-height:48px; width:100%; }
+
+/* >>> SELECT (UF) — escuro com fonte neon, dropdown escuro */
+.modal-card select.input-field{
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  background: #0f1522; color:#cfe9ff; border:2px solid #00acee;
+  border-radius:11px; padding:10px 40px 10px 14px; line-height:1.2;
+  box-shadow: 0 0 9px 0 #00acee33; cursor:pointer;
+  background-image: url("data:image/svg+xml,%3Csvg width='22' height='22' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5' stroke='%2300E5FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position: right 12px center;
+}
+.modal-card select.input-field:focus{ outline:none; border-color:#00bfff; box-shadow:0 0 15px 2px #00bfff55; }
+/* opções do dropdown (suporte amplo em Chrome/Firefox/Edge) */
+.modal-card select.input-field option{
+  background:#0f1522; color:#e8f6ff;
+}
+/* estado de placeholder (primeira opção desabilitada) */
+.modal-card select.input-field:invalid{ color:#8fb9d6; }
+
+/* Revelação progressiva */
+.step-hidden{ opacity:0; transform: translateY(10px); pointer-events:none; transition: opacity .25s ease, transform .25s ease; }
+.step-show{   opacity:1; transform: translateY(0);    pointer-events:auto; transition: opacity .25s ease, transform .25s ease; }
+
+/* Visualização: lista (como Configurações) */
+.view-list{ list-style:none; padding:0; margin:4px 0 0; }
+.view-list li{ display:flex; justify-content:space-between; gap:12px; padding:8px 6px; border-bottom:1px solid rgba(255,255,255,0.06); }
+.view-list li strong{ color:#cfe9ff; min-width:150px; }
+
+/* Botões no rodapé */
+.modal-card .btn-row{ display:flex; gap:16px; justify-content:center; margin-top:18px; }
+
+/* Scrollbar */
+.cadastro-table-wrapper::-webkit-scrollbar{ height:8px; width:8px; }
+.cadastro-table-wrapper::-webkit-scrollbar-track{ background:rgba(17,17,17,0.6); border-radius:4px; }
+.cadastro-table-wrapper::-webkit-scrollbar-thumb{ background:rgba(0,172,238,0.6); border-radius:4px; }
+
+/* Responsivo */
+@media (max-width:1100px){ .linha-acoes{ flex-direction:column; gap:10px; } }
+@media (max-width:700px){ .cadastro-card{ padding:10px; } .cadastro-table th, .cadastro-table td{ font-size:.92rem; } }

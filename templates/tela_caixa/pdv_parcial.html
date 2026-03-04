@@ -1,0 +1,76 @@
+{% load static %}
+
+<div class="card-estoque cadastro-card animated-card" id="card-pdv" data-context="pdv">
+  <button class="close-card" id="btn-fechar-pdv" title="Fechar">
+    <i class="fas fa-times"></i>
+  </button>
+
+  <div class="card-title">
+    <i class="fas fa-cash-register fa-fw card-title-icon" aria-hidden="true"></i>
+    <span style="font-family:'Orbitron',sans-serif;">Tela de caixa</span>
+  </div>
+
+  <div id="aviso-pdv" style="display:none;"></div>
+
+  <!-- TOP: Código de barras / Qtd / Ações -->
+  <div class="pdv-topbar filtros-row">
+    <div class="pdv-field" style="flex:1.4">
+      <label style="display:none">Código de barras</label>
+      <input type="text" id="pdvCodigo" class="input-field" placeholder="Aponte o leitor ou digite e pressione Enter">
+    </div>
+    <div class="pdv-field pdv-qty" style="width:160px">
+      <label style="display:none">Qtd</label>
+      <input type="number" id="pdvQtd" class="input-field" min="1" value="1">
+    </div>
+    <div class="pdv-actions btn-row" style="gap:10px">
+      <button class="button" id="pdvBtnCancelarItem">Cancelar item (F3)</button>
+      <button class="button" id="pdvBtnNovaVenda">Nova venda (F6)</button>
+
+    </div>
+  </div>
+
+  <!-- GRID: Lista à esquerda / Totais à direita -->
+  <div class="pdv-body" style="display:grid;grid-template-columns:2fr 1fr;gap:14px;">
+    <!-- Lista -->
+    <div class="card" style="background:var(--card-bg,#0e1324);border-radius:18px;padding:3px;">
+      <div class="pdv-lista-head" style="font-family:'Orbitron',sans-serif;margin:4px 0 8px;color:#98a9d9;">
+        Lista de produtos
+      </div>
+      <div class="pdv-tabela">
+        <div class="pdv-row pdv-head" style="display:grid;grid-template-columns:80px 140px 1.8fr 110px 120px 140px 120px;gap:8px;padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.06);color:#a9b8dd;text-transform:uppercase;font-size:12.5px;">
+          <div>Nº</div><div>CÓDIGO</div><div>DESCRIÇÃO</div><div>QTD</div><div>VR. UNIT.</div><div>TOTAL</div><div>AÇÕES</div>
+        </div>
+        <div class="pdv-rows" id="pdvRows" style="max-height:48vh;overflow:auto;"></div>
+      </div>
+    </div>
+
+    <!-- Totais -->
+    <div class="card" style="background:var(--card-bg,#0e1324);border-radius:18px;padding:12px;">
+      <div class="pdv-totais-line" style="display:flex;align-items:center;justify-content:space-between;margin:10px 0;">
+        <span>Subtotal</span><strong id="pdvSubtotal">R$ 0,00</strong>
+      </div>
+
+      <div class="pdv-totais-line stack">
+        <span>Desconto</span>
+        <input type="number" id="pdvDesconto" class="input-field" min="0" step="0.01" value="0">
+      </div>
+
+      <div class="pdv-totais-line" style="display:flex;align-items:center;justify-content:space-between;margin:10px 0;">
+        <span>Total</span><strong id="pdvTotal">R$ 0,00</strong>
+      </div>
+      <hr>
+
+      <div class="pdv-totais-line stack">
+        <span>Total recebido</span>
+        <input type="number" id="pdvRecebido" class="input-field" min="0" step="0.01" value="0">
+      </div>
+
+      <div class="pdv-totais-line" style="display:flex;align-items:center;justify-content:space-between;margin:10px 0;">
+        <span>Troco</span><strong id="pdvTroco">R$ 0,00</strong>
+      </div>
+      <button class="button primary btn-novo-cliente" id="pdvBtnFinalizar">Finalizar (F9)</button>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/pdv.js' %}" data-spa-script="1"></script>

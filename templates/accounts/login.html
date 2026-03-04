@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{# templates/accounts/login.html #}
+
+{% block title %}Login – CRV Systems{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="overlay">
+  <div class="initial-card"
+       style="width:100%; max-width:400px; margin:0 auto; padding:24px; box-sizing:border-box;">
+
+    {# Cabeçalho #}
+    <div class="title-container"
+         style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:24px;">
+      <img src="{% static 'icones/icone1.png' %}"
+           alt="Login"
+           style="width:42px; height:auto;" />
+      <h2 style="color:#fff; font-size:1.5rem; margin:0;">
+        Login
+      </h2>
+    </div>
+
+    {# Flash messages CENTRALIZADAS #}
+    {% if messages %}
+      <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+        {% for msg in messages %}
+          <div style="
+               display:flex;
+               align-items:center;
+               justify-content:center;
+               background:rgba(220,38,38,0.5);
+               color:#fff;
+               padding:8px 12px;
+               border-radius:8px;
+             ">
+            <span style="font-size:1.2rem; margin-right:8px;">⚠️</span>
+            <span style="line-height:1.3;">{{ msg }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {# Formulário de login #}
+    <form method="post"
+          action="{% url 'accounts:login' %}"
+          style="display:flex; flex-direction:column; gap:16px;">
+      {% csrf_token %}
+
+      {# Usuário #}
+      <div class="input-group" style="text-align:center;">
+        <label for="id_username"
+               class="input-label"
+               style="display:block; text-align:center;">
+          Usuário:
+        </label>
+        <input type="text"
+               name="username"
+               id="id_username"
+               class="input-field text-center"
+               required
+               placeholder="Digite seu usuário"
+               style="text-align:center; margin:0 auto;" />
+      </div>
+
+      {# Senha #}
+      <div class="input-group" style="text-align:center;">
+        <label for="id_password"
+               class="input-label"
+               style="display:block; text-align:center;">
+          Senha:
+        </label>
+        <input type="password"
+               name="password"
+               id="id_password"
+               class="input-field text-center"
+               required
+               placeholder="Digite sua senha"
+               style="text-align:center; margin:0 auto;" />
+      </div>
+
+      {# Botões #}
+      <div class="btn-group"
+           style="display:flex; justify-content:space-between; margin-top:24px;">
+        <a href="{% url 'home' %}"
+           class="button primary"
+           style="text-decoration:none;"
+           title="Voltar à tela inicial">
+          VOLTAR
+        </a>
+        <button type="submit"
+                class="button primary"
+                title="Entrar no sistema">
+          ENTRAR
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

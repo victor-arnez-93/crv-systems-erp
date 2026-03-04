@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}CRV Systems{% endblock %}</title>
+
+  <!-- Fonte Orbitron -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- CSS global e de módulos -->
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/pdv.css' %}">
+  <link rel="stylesheet" href="{% static 'css/estoque.css' %}">
+  <link rel="stylesheet" href="{% static 'css/financeiro.css' %}">
+  <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+  <link rel="stylesheet" href="{% static 'css/configuracoes.css' %}">
+  <link rel="stylesheet" href="{% static 'css/fluxo_caixa.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+
+  <!-- JS GLOBAIS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+  <script src="{% static 'js/spa.js' %}"></script>
+  {% block head %}{% endblock %}
+</head>
+<body style="background-image: url('{% static 'imagens/fundo_' %}{{ request.session.fundo|default:'8' }}.png');">
+
+{% if request.user.is_authenticated %}
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar-blue">
+    <div class="sidebar-top" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 16px;">
+      <button id="sidebarToggle" class="sidebar-toggle-btn" title="Ocultar menu">
+        <i class="fas fa-angle-double-left"></i>
+      </button>
+    </div>
+    <nav>
+      <a href="#" class="inicio" onclick="carregarTela('{% url 'dashboard:dashboard_inicial' %}');return false;" style="display: flex; align-items: center; gap: 9px; justify-content: center;">
+        <img src="{% static 'icones/icone2.png' %}" alt="Início" style="height: 32px; filter: drop-shadow(0 0 5px #00acee44);" />
+        Início
+      </a>
+      <a href="#" class="estoque" onclick="carregarTela('{% url 'estoque:estoque' %}'); return false;" style="display: flex; align-items: center; gap: 9px; justify-content: center;">
+        <img src="{% static 'icones/icone4.png' %}" alt="Gestão de estoque" style="height: 32px; filter: drop-shadow(0 0 5px #00acee44);"/>
+        Gestão de estoque
+      </a>
+      <a href="{% url 'fluxo_caixa:fluxo_caixa' %}" class="nav-link fluxo" data-spa-link>
+        <i class="fas fa-hand-holding-dollar fa-fw"></i><span>Fluxo de caixa</span>
+      </a>
+      <a href="{% url 'caixa:pdv' %}" class="nav-link caixa" data-spa-link>
+        <i class="fas fa-cash-register fa-fw"></i><span>Tela de caixa</span>
+      </a>
+      <a href="#" class="financeiro" onclick="carregarTela('{% url 'financeiro:parcial' %}');return false;" style="display: flex; align-items: center; gap: 9px; justify-content: center;">
+        <img src="{% static 'icones/icone5.png' %}" alt="Relatório financeiro" style="height: 42px; filter: drop-shadow(0 0 5px #00acee44);" />
+        Relatório financeiro
+      </a>
+      <a href="#" class="clientes" onclick="carregarTela('{% url 'cadastro_unificado' %}');return false;" style="display: flex; align-items: center; gap: 9px; justify-content: center;">
+        <img src="{% static 'icones/icone8.png' %}" alt="Cadastro unificado" style="height: 32px; filter: drop-shadow(0 0 5px #00acee44);" />
+        Clientes/Fornecedores
+      </a>
+      <a href="#" class="configuracoes" onclick="carregarTela('{% url 'configuracoes:parcial' %}');return false;" style="display: flex; align-items: center; gap: 9px; justify-content: center;">
+        <img src="{% static 'icones/icone10.png' %}" alt="Configurações" style="height: 32px; filter: drop-shadow(0 0 5px #00acee44);" />
+        Configurações
+      </a>
+      <a href="#" class="logout" id="logoutMenuBtn" style="display: flex; align-items: center; gap: 9px; justify-content: center;">
+        <img src="{% static 'icones/icone1.png' %}" alt="Logout" style="height: 32px; filter: drop-shadow(0 0 5px #00acee44);" />
+        Logout
+      </a>
+    </nav>
+  </aside>
+
+  <!-- HEADER -->
+  <header class="header-blue">
+    <div style="display: flex; align-items: center;">
+      <a href="#" class="inicio" onclick="carregarTela('{% url 'dashboard:dashboard_inicial' %}');return false;">
+        <img src="{% static 'icones/logo_crv.png' %}" alt="Logo CRV" class="logo-crv" style="margin-left: -30px;"/>
+      </a>
+    </div>
+    <div class="header-right">
+      <input type="text" placeholder="Buscar..." class="search-input"/>
+      <div id="weather-clock-container" class="flex items-center space-x-3 relative">
+        <span id="clock" class="dashboard-clock">--:--:--</span>
+        <img id="weather-icon" src="{% static 'icones/ico_dia.png' %}" alt="Ícone clima" class="h-11 w-11 cursor-pointer">
+        <span id="weather-temp" class="font-semibold text-neon-blue cursor-pointer" style="font-size:1rem; margin-left:5px;">--°C</span>
+        <div id="weather-forecast-dropdown" class="hidden absolute right-0 top-12 bg-black bg-opacity-90 rounded-xl shadow-xl p-4 z-50 border border-neon-blue" style="min-width: 220px;">
+          <div class="flex flex-col items-center gap:2">
+            <div id="forecast-city" class="text-neon-blue font-bold text-base mb-1"></div>
+            <div id="forecast-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avatar com dropdown -->
+      <div class="relative">
+        <img id="user-avatar-btn" src="{% static 'icones/icone7.png' %}" alt="Avatar" class="header-avatar cursor-pointer"/>
+        <div id="user-profile-dropdown" class="hidden absolute right-0 top-12 bg-black bg-opacity-95 rounded-2xl shadow-xl border border-neon-blue z-50 p-6" style="min-width:260px;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <img src="{% static 'icones/icone7.png' %}" class="profile-avatar" style="width:62px;height:62px;border-radius:50%;border:3px solid #00acee;">
+            <div style="text-align:center;">
+              <span class="profile-name" style="color:#aee9ff;font-size:1.13rem;font-weight:600;">
+                {{ request.user.get_full_name|default:request.user.username|default:"Usuário" }}
+              </span><br>
+              {% if request.user.email %}
+                {% if "@gmail.com" in request.user.email %}
+                  <a href="https://accounts.google.com/ServiceLogin?Email={{ request.user.email }}" target="_blank" style="color:#7ad5ff;font-size:0.99rem;">
+                    {{ request.user.email }}
+                  </a>
+                {% elif "@outlook.com" in request.user.email %}
+                  <a href="https://login.live.com/login.srf?login={{ request.user.email }}" target="_blank" style="color:#7ad5ff;font-size:0.99rem;">
+                    {{ request.user.email }}
+                  </a>
+                {% else %}
+                  <span style="color:#7ad5ff;font-size:0.99rem;">{{ request.user.email }}</span>
+                {% endif %}
+              {% endif %}
+            </div>
+            <button class="button primary" style="width:100%;margin-top:12px;" onclick="carregarTela('{% url 'configuracoes:parcial' %}')">
+              <i class="fa fa-user" style="margin-right:7px;"></i> Minha Conta
+            </button>
+            <button type="button" class="button primary" style="width:100%;margin-top:8px;text-align:center;" onclick="document.getElementById('logoutModal').style.display='flex'">
+              <i class="fa fa-sign-out-alt" style="margin-right:7px;"></i> Sair
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FAB -->
+  <button id="sidebarFab" class="sidebar-fab" style="display:none;" title="Mostrar menu">
+    <i class="fas fa-angle-double-right"></i>
+  </button>
+{% endif %}
+
+<main id="dashboardContent" class="dashboard-content">
+  <div id="main-content">
+    {% block content %}{% endblock %}
+  </div>
+</main>
+
+{% if request.user.is_authenticated %}
+  <!-- MODAL LOGOUT -->
+  <div id="logoutModal" class="modal modal-view" style="display: none; z-index: 9999;">
+    <div class="modal-card" style="max-width: 370px; padding: 36px 32px; text-align: center;">
+      <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+        <img src="{% static 'icones/icone1.png' %}" alt="Logout" style="width:44px;height:44px;">
+      </div>
+      <h2 style="color:#fff;font-size:1.28rem;font-family:Orbitron,sans-serif;font-weight:600;margin-bottom:18px;">
+        Tem certeza que deseja<br> sair do sistema?
+      </h2>
+      <div style="display:flex; gap:18px; justify-content:center; margin-top:18px;">
+        <button type="button" id="btnCancelarLogout" class="button primary close-logout-modal" style="min-width:120px;">CANCELAR</button>
+        <button type="button" id="btn-confirm-logout" class="button primary" style="min-width:120px;">SAIR</button>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% block scripts %}{% endblock %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  {% if request.user.is_authenticated %}
+    const logoutMenuBtn = document.getElementById('logoutMenuBtn');
+    const logoutModal = document.getElementById('logoutModal');
+    const cancelarLogout = document.getElementById('btnCancelarLogout');
+    const sairLogout = document.getElementById('btn-confirm-logout');
+
+    if (logoutMenuBtn && logoutModal) {
+      logoutMenuBtn.onclick = function(e) {
+        e.preventDefault();
+        logoutModal.style.display = 'flex';
+      };
+    }
+    if (cancelarLogout && logoutModal) {
+      cancelarLogout.onclick = function() {
+        logoutModal.style.display = 'none';
+      };
+    }
+    if (sairLogout) {
+      sairLogout.onclick = function() {
+        window.location.href = '{% url "accounts:logout" %}';
+      };
+    }
+
+    // Toggle do dropdown
+    const avatarBtn = document.getElementById('user-avatar-btn');
+    const userDropdown = document.getElementById('user-profile-dropdown');
+    if (avatarBtn && userDropdown) {
+      avatarBtn.addEventListener('click', function () {
+        userDropdown.classList.toggle('hidden');
+      });
+      document.addEventListener('click', function(e) {
+        if (!avatarBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+          userDropdown.classList.add('hidden');
+        }
+      });
+    }
+  {% endif %}
+});
+</script>
+</body>
+</html>

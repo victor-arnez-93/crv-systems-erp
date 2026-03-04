@@ -1,0 +1,212 @@
+{% load static %}
+
+<div id="fluxo-caixa" class="cadastro-card">
+  <button class="fc-close" id="btn-fechar-fluxo-caixa" title="Fechar">
+    <i class="fas fa-times"></i>
+  </button>
+
+  <div class="fc-title" role="heading" aria-level="2">
+    <i class="fa-solid fa-hand-holding-dollar fc-title-icon" aria-hidden="true"></i>
+    <span class="fc-title-text">Fluxo de Caixa</span>
+  </div>
+
+  <!-- Lançamento -->
+  <form id="formLancamento" class="fc-form" autocomplete="off">
+    <div class="fc-row fc-row-1">
+      <div class="fc-field">
+        <label>Data</label>
+        <input type="date" id="campoData" name="data" class="fc-input" required>
+      </div>
+      <div class="fc-field">
+        <label>Tipo</label>
+        <select id="campoTipo" name="tipo" class="fc-input fc-select" required>
+          <option value="">Selecione</option>
+          <option value="entrada">Entrada</option>
+          <option value="saida">Saída</option>
+        </select>
+      </div>
+      <div class="fc-field">
+        <label>Valor (R$)</label>
+        <input type="text" id="campoValor" name="valor" class="fc-input" placeholder="0,00" required>
+      </div>
+      <div class="fc-field">
+        <label>Categoria</label>
+        <select id="campoCategoria" name="categoria" class="fc-input fc-select">
+          <option value="">—</option>
+          <option>Vendas</option>
+          <option>Serviços</option>
+          <option>Impostos</option>
+          <option>Fornecedores</option>
+          <option>Outros</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="fc-row fc-row-2">
+      <div class="fc-field fc-desc">
+        <label>Descrição</label>
+        <input type="text" id="campoDescricao" name="descricao" class="fc-input" placeholder="Ex.: Venda produto X, pagamento fornecedor Y">
+      </div>
+      <div class="fc-field fc-observ">
+        <label>Observação</label>
+        <input type="text" id="campoObservacao" name="observacao" class="fc-input" placeholder="Opcional">
+      </div>
+      <div class="fc-actions">
+        <button type="button" class="button primary" id="btnSalvar" title="Salvar lançamento">
+          <i class="fa-solid fa-floppy-disk"></i><span> SALVAR</span>
+        </button>
+        <button type="button" class="button primary" id="btnAplicarFiltros" title="Buscar movimentações">
+          <i class="fa-solid fa-magnifying-glass"></i><span> BUSCAR</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="fc-row fc-row-3">
+      <div class="fc-field">
+        <label>Conta</label>
+        <select id="campoConta" name="conta" class="fc-input fc-select">
+          <option value="Carteira">Carteira</option>
+          <option value="Banco PJ">Banco PJ</option>
+          <option value="Banco PF">Banco PF</option>
+          <option value="PIX">PIX</option>
+          <option value="Cartão">Cartão</option>
+          <option value="Outros">Outros</option>
+        </select>
+      </div>
+      <div class="fc-field">
+        <label>Status</label>
+        <select id="campoStatus" name="status" class="fc-input fc-select">
+          <option value="Realizado" selected>Realizado</option>
+          <option value="Previsto">Previsto</option>
+        </select>
+      </div>
+      <div class="fc-spacer"></div>
+    </div>
+  </form>
+
+  <!-- Filtros -->
+  <div class="fc-filtros">
+    <div class="fc-field">
+      <label>Período</label>
+      <select id="filtroPeriodo" class="fc-input fc-select">
+        <option value="todos">Todos</option>
+        <option value="hoje">Hoje</option>
+        <option value="semana">Últimos 7 dias</option>
+        <option value="mes" selected>Mês atual</option>
+        <option value="data">Data específica</option>
+        <option value="custom">Personalizado</option>
+      </select>
+    </div>
+
+    <div class="fc-field">
+      <label>Tipo</label>
+      <select id="filtroTipo" class="fc-input fc-select">
+        <option value="todos" selected>Todos</option>
+        <option value="entrada">Entradas</option>
+        <option value="saida">Saídas</option>
+      </select>
+    </div>
+
+    <div class="fc-field">
+      <label>Conta</label>
+      <select id="filtroConta" class="fc-input fc-select">
+        <option value="todas" selected>Todas</option>
+        <option value="Carteira">Carteira</option>
+        <option value="Banco PJ">Banco PJ</option>
+        <option value="Banco PF">Banco PF</option>
+        <option value="PIX">PIX</option>
+        <option value="Cartão">Cartão</option>
+        <option value="Outros">Outros</option>
+      </select>
+    </div>
+
+    <div class="fc-field">
+      <label>Status</label>
+      <select id="filtroStatus" class="fc-input fc-select">
+        <option value="todos" selected>Todos</option>
+        <option value="Realizado">Realizado</option>
+        <option value="Previsto">Previsto</option>
+      </select>
+    </div>
+
+    <div class="fc-field fc-only-data" style="display:none;">
+      <label>Data</label>
+      <input type="date" id="filtroData" class="fc-input">
+    </div>
+    <div class="fc-field fc-only-range" style="display:none;">
+      <label>De</label>
+      <input type="date" id="filtroInicio" class="fc-input">
+    </div>
+    <div class="fc-field fc-only-range" style="display:none;">
+      <label>Até</label>
+      <input type="date" id="filtroFim" class="fc-input">
+    </div>
+
+    <!-- Ações dos filtros -->
+    <div class="fc-actions fc-actions-filter">
+      <button type="button" class="button primary" id="btnImportarNFe" title="Importar XML(s) de NF-e">
+        <i class="fa-solid fa-file-import"></i><span> IMPORTAR XML(s) (NF-e)</span>
+      </button>
+      <button type="button" class="button primary" id="btnImportarNFePasta" title="Importar pasta de XMLs de NF-e">
+        <i class="fa-solid fa-folder-open"></i><span> IMPORTAR PASTA (NF-e)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="fc-resumo">
+    <div class="fc-card kpi kpi-entrada">
+      <div class="fc-card-label">Entradas</div>
+      <div class="fc-card-value" id="kpiEntradas">R$ 0,00</div>
+    </div>
+    <div class="fc-card kpi kpi-saida">
+      <div class="fc-card-label">Saídas</div>
+      <div class="fc-card-value" id="kpiSaidas">R$ 0,00</div>
+    </div>
+    <div class="fc-card kpi kpi-saldo">
+      <div class="fc-card-label">Saldo</div>
+      <div class="fc-card-value" id="kpiSaldo">R$ 0,00</div>
+    </div>
+  </div>
+
+  <!-- Lista -->
+  <div class="fc-table">
+    <div class="fc-header-massa">
+      <div class="fc-bulk-left">
+        <input type="checkbox" id="selectAll" aria-label="Selecionar todos">
+        <span id="bulkInfo">0 selecionados</span>
+      </div>
+      <button type="button" class="button primary" id="btnExcluirSelecionados">EXCLUIR SELECIONADOS</button>
+    </div>
+
+    <div class="fc-scroll">
+      <table class="fcx-table" aria-label="Movimentações financeiras">
+        <thead>
+          <tr>
+            <th style="width:42px;"></th>
+            <th>Data</th>
+            <th>Tipo</th>
+            <th>Valor</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Conta</th>
+            <th>Status</th>
+            <th style="width:56px;">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaMovimentos"></tbody>
+      </table>
+    </div>
+
+    <div id="listaVazia" class="fc-trow-empty" style="display:none;">
+      Nenhuma movimentação encontrada para os filtros aplicados.
+    </div>
+  </div>
+
+  <div id="fxc-toasts"></div>
+</div>
+
+<input type="file" id="inputXmlNFe" accept=".xml" multiple style="display:none;">
+
+<link rel="stylesheet" href="{% static 'css/fluxo_caixa.css' %}">
+<script src="{% static 'js/fluxo_caixa.js' %}" data-spa-script="1"></script>

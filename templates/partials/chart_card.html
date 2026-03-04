@@ -1,0 +1,17 @@
+{# templates/partials/chart_card.html #}
+<div class="chart-card bg-white bg-opacity-10 p-4 rounded-lg shadow-md flex flex-col">
+  <div class="card-header flex justify-between items-center mb-3">
+    <h4 class="chart-title text-white text-lg font-medium">{{ title }}</h4>
+    <div class="chart-controls flex space-x-2 text-white">
+      <button class="minimize focus:outline-none" title="Minimizar">
+        <i class="fas fa-minus"></i>
+      </button>
+      <button class="close focus:outline-none" title="Fechar">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+  <div class="flex-1">
+    <canvas id="{{ chart_id }}" class="w-full h-48"></canvas>
+  </div>
+</div>

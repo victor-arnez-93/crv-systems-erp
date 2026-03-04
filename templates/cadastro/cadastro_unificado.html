@@ -1,0 +1,282 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+
+<div class="card-estoque cadastro-card" style="max-width:1140px; width:96vw; margin:0 auto;">
+  <button class="close-card" onclick="carregarTela('{% url 'dashboard:dashboard_inicial' %}')" title="Fechar">&times;</button>
+
+  <div class="screen-title">
+    <img src="{% static 'icones/icone8.png' %}" alt="Ícone" class="card-title-icon">
+    <span>Clientes / Fornecedores</span>
+  </div>
+
+  <!-- ===== CLIENTES ===== -->
+  <div class="cadastro-card" style="margin-bottom:20px;">
+    <div class="section-title">
+      <img src="{% static 'icones/icone8.png' %}" alt="Clientes" class="card-title-icon">
+      <span>Clientes</span>
+    </div>
+
+    <div class="linha-acoes">
+      <input type="text" id="busca-clientes" class="input-field busca-input" placeholder="Buscar clientes...">
+      <button type="button" class="button primary btn-novo-cliente">+ NOVO CLIENTE</button>
+    </div>
+
+    <div class="cadastro-table-wrapper clientes-scroll">
+      <table class="cadastro-table" id="tabela-clientes">
+        <thead>
+          <tr><th>Nome</th><th>Email</th><th>Telefone</th><th>Cidade</th><th style="width:140px">Ações</th></tr>
+        </thead>
+        <tbody id="tbody-clientes">
+          {% for cliente in clientes %}
+          <tr class="cliente-row" data-id="{{ cliente.id }}">
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.telefone }}</td>
+            <td>{{ cliente.cidade }}</td>
+            <td>
+              <a class="acao-link editar btn-editar-cliente" data-id="{{ cliente.id }}">Editar</a>
+              <a class="acao-link excluir btn-deletar-cliente" data-id="{{ cliente.id }}">Excluir</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="empty-row">Nenhum cliente cadastrado.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== FORNECEDORES ===== -->
+  <div class="cadastro-card">
+    <div class="section-title">
+      <img src="{% static 'icones/icone9.png' %}" alt="Fornecedores" class="card-title-icon">
+      <span>Fornecedores</span>
+    </div>
+
+    <div class="linha-acoes">
+      <input type="text" id="busca-fornecedores" class="input-field busca-input" placeholder="Buscar fornecedores...">
+      <button type="button" class="button primary btn-novo-fornecedor">+ NOVO FORNECEDOR</button>
+    </div>
+
+    <div class="cadastro-table-wrapper fornecedores-scroll">
+      <table class="cadastro-table" id="tabela-fornecedores">
+        <thead>
+          <tr><th>Nome</th><th>Email</th><th>Telefone</th><th>Cidade</th><th style="width:140px">Ações</th></tr>
+        </thead>
+        <tbody id="tbody-fornecedores">
+          {% for fornecedor in fornecedores %}
+          <tr class="fornecedor-row" data-id="{{ fornecedor.id }}">
+            <td>{{ fornecedor.nome }}</td>
+            <td>{{ fornecedor.email }}</td>
+            <td>{{ fornecedor.telefone }}</td>
+            <td>{{ fornecedor.cidade }}</td>
+            <td>
+              <a class="acao-link editar btn-editar-fornecedor" data-id="{{ fornecedor.id }}">Editar</a>
+              <a class="acao-link excluir btn-deletar-fornecedor" data-id="{{ fornecedor.id }}">Excluir</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="empty-row">Nenhum fornecedor cadastrado.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MODAIS (padrão ESTOQUE/CONFIG) ===================== -->
+
+<!-- Novo/Editar Cliente (estreito, 1 campo/linha) -->
+<div id="modalNovoCliente" class="modal">
+  <div class="modal-card modal-scroll modal-narrow">
+    <button type="button" class="close-modal btn-fechar-modal" title="Fechar">&times;</button>
+    <div class="card-title" id="titulo-modal-cliente"><i class="fas fa-user-plus"></i><span>Novo Cliente</span></div>
+    <div class="modal-divider"></div>
+
+    <form id="formNovoCliente" action="javascript:void(0)" novalidate>
+      <div class="modal-grid-form one-col">
+        <div class="step step-show">
+          <label>Nome Completo</label>
+          <input type="text" name="nome" class="input-field" required>
+        </div>
+
+        <div class="step step-hidden">
+          <label>CPF</label>
+          <input type="text" name="cpf" class="input-field" placeholder="000.000.000-00">
+        </div>
+
+        <div class="step step-hidden">
+          <label>RG (Opcional)</label>
+          <input type="text" name="rg" class="input-field" placeholder="Digite '-' caso não for preencher">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Data de Nascimento</label>
+          <input type="date" name="data_nascimento" class="input-field">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Telefone/WhatsApp</label>
+          <input type="text" name="telefone" class="input-field" placeholder="(00)00000-0000">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Email</label>
+          <input type="email" name="email" class="input-field">
+        </div>
+
+        <div class="step step-hidden">
+          <label>CEP</label>
+          <input type="text" name="cep" class="input-field" placeholder="00000-000">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Endereço</label>
+          <input type="text" name="endereco" class="input-field">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Cidade</label>
+          <input type="text" name="cidade" class="input-field">
+        </div>
+
+        <div class="step step-hidden">
+          <label>UF</label>
+          <select name="uf" class="input-field">
+            <option value="" disabled selected>Selecione a UF</option>
+            {% for uf in ufs %}<option value="{{ uf }}">{{ uf }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" id="btnSalvarCliente" class="button primary" disabled>SALVAR</button>
+        <button type="button" class="button primary btn-cancelar-novo-cliente">FECHAR</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Novo/Editar Fornecedor (estreito, 1 campo/linha) -->
+<div id="modalNovoFornecedor" class="modal">
+  <div class="modal-card modal-scroll modal-narrow">
+    <button type="button" class="close-modal btn-fechar-modal" title="Fechar">&times;</button>
+    <div class="card-title" id="titulo-modal-fornecedor"><i class="fas fa-truck-loading"></i><span>Novo Fornecedor</span></div>
+    <div class="modal-divider"></div>
+
+    <form id="formNovoFornecedor" action="javascript:void(0)" novalidate>
+      <div class="modal-grid-form one-col">
+        <div class="step step-show">
+          <label>Razão Social / Nome Fantasia</label>
+          <input type="text" name="nome" class="input-field" required>
+        </div>
+
+        <div class="step step-hidden">
+          <label>CNPJ</label>
+          <input type="text" name="cnpj" class="input-field" placeholder="00.000.000/0000-00">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Inscrição Estadual (Opcional)</label>
+          <input type="text" name="inscricao_estadual" class="input-field" placeholder="Digite '-' caso não for preencher">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Representante (Opcional)</label>
+          <input type="text" name="representante" class="input-field" placeholder="Digite '-' caso não for preencher">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Telefone/WhatsApp</label>
+          <input type="text" name="telefone" class="input-field" placeholder="(00)00000-0000">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Email</label>
+          <input type="email" name="email" class="input-field">
+        </div>
+
+        <div class="step step-hidden">
+          <label>CEP</label>
+          <input type="text" name="cep" class="input-field" placeholder="00000-000">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Endereço</label>
+          <input type="text" name="endereco" class="input-field">
+        </div>
+
+        <div class="step step-hidden">
+          <label>Cidade</label>
+          <input type="text" name="cidade" class="input-field">
+        </div>
+
+        <div class="step step-hidden">
+          <label>UF</label>
+          <select name="uf" class="input-field">
+            <option value="" disabled selected>Selecione a UF</option>
+            {% for uf in ufs %}<option value="{{ uf }}">{{ uf }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" id="btnSalvarFornecedor" class="button primary" disabled>SALVAR</button>
+        <button type="button" class="button primary btn-cancelar-novo-fornecedor">FECHAR</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Visualização Cliente -->
+<div id="modalViewCliente" class="modal">
+  <div class="modal-card modal-scroll modal-compact">
+    <button type="button" class="close-modal btn-fechar-modal" title="Fechar">&times;</button>
+    <div class="card-title"><i class="fas fa-user"></i><span>Cliente</span></div>
+    <div class="modal-divider"></div>
+
+    <ul class="view-list">
+      <li><strong>Nome:</strong> <span id="view-cliente-nome"></span></li>
+      <li><strong>CPF:</strong> <span id="view-cliente-cpf">—</span></li>
+      <li><strong>RG:</strong> <span id="view-cliente-rg">—</span></li>
+      <li><strong>Dt. Nasc.:</strong> <span id="view-cliente-nasc">—</span></li>
+      <li><strong>Telefone:</strong> <span id="view-cliente-tel"></span></li>
+      <li><strong>Email:</strong> <span id="view-cliente-email"></span></li>
+      <li><strong>CEP:</strong> <span id="view-cliente-cep">—</span></li>
+      <li><strong>Endereço:</strong> <span id="view-cliente-end">—</span></li>
+      <li><strong>Cidade:</strong> <span id="view-cliente-cid"></span></li>
+      <li><strong>UF:</strong> <span id="view-cliente-uf">—</span></li>
+    </ul>
+
+    <div class="btn-row"><button type="button" class="button primary btn-fechar-modal">FECHAR</button></div>
+  </div>
+</div>
+
+<!-- Visualização Fornecedor -->
+<div id="modalViewFornecedor" class="modal">
+  <div class="modal-card modal-scroll modal-compact">
+    <button type="button" class="close-modal btn-fechar-modal" title="Fechar">&times;</button>
+    <div class="card-title"><i class="fas fa-truck"></i><span>Fornecedor</span></div>
+    <div class="modal-divider"></div>
+
+    <ul class="view-list">
+      <li><strong>Nome:</strong> <span id="view-fornecedor-nome"></span></li>
+      <li><strong>CNPJ:</strong> <span id="view-fornecedor-cnpj">—</span></li>
+      <li><strong>Inscr. Est.:</strong> <span id="view-fornecedor-ie">—</span></li>
+      <li><strong>Representante:</strong> <span id="view-fornecedor-rep">—</span></li>
+      <li><strong>Telefone:</strong> <span id="view-fornecedor-tel"></span></li>
+      <li><strong>Email:</strong> <span id="view-fornecedor-email"></span></li>
+      <li><strong>CEP:</strong> <span id="view-fornecedor-cep">—</span></li>
+      <li><strong>Endereço:</strong> <span id="view-fornecedor-end">—</span></li>
+      <li><strong>Cidade:</strong> <span id="view-fornecedor-cid"></span></li>
+      <li><strong>UF:</strong> <span id="view-fornecedor-uf">—</span></li>
+    </ul>
+
+    <div class="btn-row"><button type="button" class="button primary btn-fechar-modal">FECHAR</button></div>
+  </div>
+</div>
+
+<!-- JS desta tela (SPA) -->
+<script src="{% static 'js/cadastro.js' %}" data-spa-script></script>
+<script data-spa-script>window.inicializarCadastroSPA && window.inicializarCadastroSPA();</script>

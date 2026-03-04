@@ -1,0 +1,472 @@
+/* ======================= */
+/* CONFIGURAÇÕES - PADRÃO  */
+/* ======================= */
+@keyframes card-slide-in {
+  0%   { opacity: 0; transform: translateX(-70px) scale(0.96); box-shadow: 0 0 0 #00acee00; }
+  60%  { opacity: 1; transform: translateX(10px) scale(1.01); box-shadow: 0 0 48px 8px #00acee55; }
+ 100%  { opacity: 1; transform: translateX(0) scale(1);     box-shadow: 0 0 24px 2px #00bfff42; }
+}
+
+.config-container {
+  display: flex;
+  gap: 38px;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  background: rgba(22,28,38,0.97);
+  border: 2px solid #00acee55;
+  border-radius: 26px;
+  padding: 48px 38px 42px 38px;
+  box-shadow: 0 0 40px 8px #00acee25;
+  min-height: 520px;
+  animation: card-slide-in 0.75s cubic-bezier(.66,1.36,.54,1.01);
+}
+
+.config-col {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+}
+.config-col > div,
+.config-col > form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.config-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #15e7ff !important;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-shadow: 0 0 11px #1bdcff70, 0 0 6px #021b2472;
+  letter-spacing: 0.03em;
+  justify-content: center;
+  width: 100%;
+  min-height: 43px;
+}
+.label-padrao {
+  color: #b3eaff;
+  font-weight: 500;
+  margin-bottom: 7px;
+  margin-top: 8px;
+  display: block;
+  text-align: center;
+}
+.tema-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  align-items: center;
+  width: 100%;
+}
+.tema-carousel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 2px;
+  justify-content: center;
+  width: 100%;
+}
+.tema-arrow {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: #022e44;
+  color: #1bdcff;
+  font-size: 1.7rem;
+  border-radius: 50%;
+  box-shadow: 0 0 9px #00acee33;
+  cursor: pointer;
+  transition: background .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tema-arrow:hover {
+  background: #045077;
+}
+.tema-list {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  max-width: 324px;
+}
+.tema-item {
+  border: 2px solid #00acee66;
+  border-radius: 13px;
+  cursor: pointer;
+  width: 69px;
+  height: 45px;
+  box-shadow: 0 0 10px #00acee18;
+  overflow: hidden;
+  transition: border .14s, box-shadow .13s;
+  background: #151b24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tema-item.selected,
+.tema-item:hover {
+  border: 3px solid #1bdcff;
+  box-shadow: 0 0 20px #00bfff66;
+}
+.tema-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: filter .11s;
+}
+#tema-nome-exibido {
+  text-align: center;
+  font-weight: 600;
+  margin-top: 6px;
+}
+.btn-aplicar-tema {
+  margin-top: 8px;
+  width: 130px;
+}
+.config-col .button {
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+.config-col .button i {
+  margin-right: 7px;
+  font-size: 1.15em;
+}
+.config-col .alterar-senha-btn {
+  background: none !important;
+  color: #15e7ff !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.09rem;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.16s;
+  justify-content: center;
+  width: 100%;
+}
+.config-col .alterar-senha-btn:hover {
+  color: #fff !important;
+  text-decoration: underline;
+}
+#idioma.input-field {
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
+
+/* ======================= */
+/* COLUNA 2 */
+/* ======================= */
+
+.config-col:nth-child(2) {
+  align-items: center !important;
+}
+.config-col:nth-child(2) > div,
+.config-col:nth-child(2) > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100%;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+}
+.config-col:nth-child(2) .config-title,
+.config-col:nth-child(2) > div > .config-title {
+  width: 100%;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  margin-top: 12px !important;
+  margin-bottom: 6px !important;
+  min-height: 43px;
+  display: flex;
+  gap: 13px;
+}
+.config-col:nth-child(2) img,
+.config-col:nth-child(2) .licenca-text,
+.config-col:nth-child(2) div,
+.config-col:nth-child(2) strong,
+.config-col:nth-child(2) p,
+.config-col:nth-child(2) span {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100%;
+}
+.config-col:nth-child(2) .logo-crv,
+.config-col:nth-child(2) img {
+  display: block;
+  margin: 4px auto 4px auto !important;
+  max-width: 255px !important;
+}
+.config-col:nth-child(2) > div {
+  margin-bottom: 4px !important;
+}
+.config-col:nth-child(2) .licenca-text {
+  margin-top: -15px !important;
+  font-size: 1.04rem;
+}
+
+@media (max-width: 900px) {
+  .config-container { flex-direction: column; gap: 22px; padding: 16px 2vw 16px 2vw;}
+  .config-title { font-size: 1.19rem;}
+}
+.config-col:nth-child(2) > div:first-child .config-title {
+    margin-top: -4px !important;
+}
+
+/* ======================= */
+/* MODAIS — PADRÃO CRV     */
+/* ======================= */
+
+.modal-view,
+#modal-cadastro-empresa,
+#modal-alterar-senha,
+#modal-detalhes-empresa {
+  display: none;
+  position: absolute !important;
+  z-index: 1999;
+  top: 0; left: 0; width: 100%; height: 100%;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.22s;
+  background: rgba(10,20,35,0.13) !important;   /* overlay translúcido */
+  backdrop-filter: blur(2.5px);                 /* suave embaçamento */
+}
+.modal-view[style*="display: flex"],
+#modal-cadastro-empresa[style*="display: flex"],
+#modal-alterar-senha[style*="display: flex"],
+#modal-detalhes-empresa[style*="display: flex"] {
+  display: flex !important;
+}
+.modal-empresa-card, .modal-senha-card {
+  background: #181d24;
+  border: 2px solid #15e7ff55;
+  border-radius: 18px;
+  box-shadow: 0 0 32px #0cf1fc38, 0 2px 14px #0006;
+  min-width: 320px;
+  max-width: 370px;
+  width: 96vw;
+  padding: 28px 22px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Roboto', Arial, sans-serif;
+  color: #e2fcff;
+  position: relative;
+  animation: modalEntra .32s cubic-bezier(.57,1.23,.52,1.01);
+}
+@keyframes modalEntra {
+  from { transform: translateY(36px) scale(0.97); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+.modal-empresa-title {
+  font-family: 'Orbitron', Arial, sans-serif;
+  color: #0cf1fc;
+  font-size: 1.23rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-align: center;
+  margin-bottom: 13px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  justify-content: center;
+  text-shadow: 0 0 12px #21f3ff49, 0 0 4px #021b2433;
+}
+.modal-empresa-linha {
+  width: 100%;
+  border: none;
+  border-bottom: 1.3px solid #14e2fd24;
+  margin: 2px 0 12px 0;
+}
+.modal-empresa-card .input-field,
+.modal-senha-card .input-field {
+  width: 100%;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 1rem;
+  padding: 9px 13px;
+  margin-bottom: 13px;
+  border: 1.5px solid #0cf1fc77;
+  border-radius: 9px;
+  background: #151b24;
+  color: #eafcff;
+  outline: none;
+  transition: border .16s;
+  box-sizing: border-box;
+}
+.modal-empresa-card .input-field:focus,
+.modal-senha-card .input-field:focus {
+  border: 1.5px solid #0cf1fc;
+}
+
+.modal-form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 0;
+  gap: 0px;
+}
+
+/* Alinhamento e largura exata dos botões em relação aos campos */
+.modal-empresa-card .button,
+.modal-senha-card .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 12px 0;
+  width: 100%;
+  border-radius: 22px;
+  font-size: 1rem;
+  transition: background 0.18s, box-shadow 0.16s;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+
+/* Espaçamento fino entre botões (Salvar / Fechar) */
+.modal-empresa-card .button + .button,
+.modal-senha-card .button + .button {
+  margin-top: 6px !important; /* ajuste para botões mais próximos */
+}
+
+/* Último grupo dos botões: um pouco de margem do campo acima */
+.modal-empresa-card .modal-form-group:last-child,
+.modal-senha-card .modal-form-group:last-child {
+  margin-top: 6px;
+}
+
+/* Mensagens de erro/sucesso em modais */
+#modal-empresa-mensagem, #msg-alterar-senha {
+  margin-top: 8px;
+  color: #ff7575;
+  text-align: center;
+  min-height: 22px;
+  font-size: 1.03rem;
+  display: block;
+}
+
+/* Ajuste especial: botão Fechar dos detalhes da empresa mais afastado do Estado */
+#modal-detalhes-empresa .modal-form-group {
+  margin-top: 22px !important;
+}
+
+#modal-detalhes-empresa .modal-form-group .button {
+  margin-top: 0;
+}
+
+/* Estilo para campos de detalhes (Nome, CNPJ, etc.) */
+#modal-detalhes-empresa .modal-empresa-conteudo,
+#modal-detalhes-empresa .modal-empresa-conteudo div,
+#modal-detalhes-empresa .modal-empresa-conteudo strong {
+  font-family: 'Roboto', Arial, sans-serif !important;
+  font-weight: normal !important;
+  color: #c7faff;
+}
+#modal-detalhes-empresa .modal-empresa-conteudo strong {
+  color: #00ffe7;
+  margin-right: 7px;
+}
+#modal-detalhes-empresa .modal-empresa-conteudo > div {
+  margin-bottom: 2px;
+  text-align: left;
+}
+#modal-detalhes-empresa .modal-empresa-conteudo > div:last-child {
+  margin-bottom: 0;
+}
+
+/* Form grid de cadastro inicial: inputs lado a lado */
+.modal-empresa-grid-form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 18px;
+}
+
+.modal-form-group-estado {
+  grid-column: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8px;
+  width: 100%;
+}
+.modal-form-group-estado label {
+  align-self: center;
+  margin-bottom: 5px;
+}
+.modal-form-group-estado .input-field,
+.modal-form-group-estado button {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.05em;
+  box-sizing: border-box;
+}
+
+/* Responsividade para mobile */
+@media (max-width: 680px) {
+  .modal-empresa-card, .modal-senha-card { min-width: 98vw; max-width: 98vw; padding: 16px 4vw; }
+  .modal-empresa-grid-form { grid-template-columns: 1fr; }
+  .modal-form-group-estado .input-field,
+  .modal-form-group-estado button { width: 100%; max-width: none; }
+}
+@media (max-width:600px) {
+  #modal-detalhes-empresa .modal-empresa-card { min-width: 85vw; max-width: 98vw; padding: 14px 7vw;}
+  #modal-detalhes-empresa .button.primary { font-size: 1em;}
+}
+
+.modal-empresa-card form,
+.modal-senha-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+/* Alinha, centraliza e cola os botões das modais CRV */
+.modal-empresa-card .modal-form-group,
+.modal-senha-card .modal-form-group {
+  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch !important;
+  gap: 8px !important;   /* <--- ajuste esse valor conforme desejar (6px, 10px, etc) */
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.modal-empresa-card .button,
+.modal-senha-card .button {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  align-self: stretch !important;
+}
+.config-container {
+  position: relative;
+}
+

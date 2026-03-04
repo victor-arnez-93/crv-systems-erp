@@ -1,0 +1,193 @@
+/* ——————————————————————————————
+   Animação de entrada dos cards
+——————————————————————————————————— */
+@keyframes card-slide-in {
+  0%   { opacity: 0; transform: translateX(-70px) scale(0.96); box-shadow: 0 0 0 #00acee00; }
+  60%  { opacity: 1; transform: translateX(10px) scale(1.01); box-shadow: 0 0 48px 8px #00acee55; }
+ 100%  { opacity: 1; transform: translateX(0) scale(1);     box-shadow: 0 0 24px 2px #00bfff42; }
+}
+
+/* ===== Base / Título ===== */
+#fluxo-caixa { position: relative; }
+/* Entrada animada principal (equivalente ao .card-estoque) */
+#fluxo-caixa {
+  animation: card-slide-in 0.75s cubic-bezier(.66,1.36,.54,1.01);
+}
+
+#fluxo-caixa .fc-title{ display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:30px; }
+#fluxo-caixa .fc-title-icon{ font-size:32px; color:#00acee; text-shadow:0 0 6px #00acee, 0 0 14px #00acee; }
+#fluxo-caixa .fc-title-text{ font-family:'Orbitron',sans-serif; font-weight:700; color:#fff; letter-spacing:.02em; font-size:clamp(22px,2.2vw,34px); }
+
+#fluxo-caixa .fc-field{ display:flex; flex-direction:column; gap:6px; }
+#fluxo-caixa .fc-input{
+  height:48px; border-radius:12px; padding:12px 14px;
+  background:#0b1522; color:#c9f3ff; border:1.5px solid #00acee55; outline:none;
+}
+#fluxo-caixa .fc-select{ appearance:none; padding-right:36px; }
+
+#fluxo-caixa .fc-row{ margin-bottom:10px; }
+
+/* ===== Grid do formulário ===== */
+#fluxo-caixa .fc-row-1{
+  display:grid; grid-template-columns: repeat(4, 1fr);
+  column-gap:24px; margin-bottom:20px;
+}
+#fluxo-caixa .fc-row-2{
+  display:grid;
+  grid-template-columns: 2fr 1fr minmax(420px, max-content);
+  column-gap:24px; align-items:end;
+}
+#fluxo-caixa .fc-actions{
+  display:flex; justify-content:flex-end; align-items:flex-end; gap:12px; flex-wrap:wrap;
+}
+#fluxo-caixa .fc-actions .button,
+#fluxo-caixa #btnSalvar,
+#fluxo-caixa #btnAplicarFiltros{
+  height:48px; line-height:48px; padding-top:0; padding-bottom:0;
+}
+
+#fluxo-caixa .fc-row-3{
+  display:grid; grid-template-columns: 1fr 1fr auto;
+  column-gap:24px; align-items:end;
+}
+
+/* ===== Filtros ===== */
+/* Linha 1 fixa: Período | Tipo | Conta | Status | [Ações] */
+/* Campos de data (data/de/até) descem para a linha de baixo quando visíveis */
+#fluxo-caixa .fc-filtros{
+  margin:10px 0 18px;
+  display:grid;
+  grid-template-columns:
+    minmax(160px, 1fr)     /* Período */
+    minmax(110px, .8fr)    /* Tipo */
+    minmax(110px, .8fr)    /* Conta */
+    minmax(110px, .8fr)    /* Status */
+    minmax(520px, 1.2fr);  /* Ações (IMPORTAR...) */
+  grid-auto-flow: row dense;
+  column-gap:12px; align-items:end;
+}
+/* Ações dos filtros: largura mínima + não quebra texto dos botões */
+#fluxo-caixa .fc-actions-filter{
+  display:flex; justify-content:flex-end; gap:12px; flex-wrap:nowrap;
+  min-width:520px;
+}
+#fluxo-caixa .fc-actions-filter .button,
+#fluxo-caixa #btnImportarNFe,
+#fluxo-caixa #btnImportarNFePasta{
+  height:48px; line-height:48px; padding-top:0; padding-bottom:0;
+  white-space:nowrap;
+}
+
+/* Campos de data ocupam a linha de baixo quando visíveis */
+#fluxo-caixa .fc-only-data,
+#fluxo-caixa .fc-only-range{
+  grid-column:auto / span 2;
+}
+
+/* ===== KPIs (leve) ===== */
+#fluxo-caixa .fc-resumo{
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;
+}
+/* Entrada animada nos cards (stagger leve) */
+#fluxo-caixa .fc-resumo .fc-card{
+  animation: card-slide-in 0.75s cubic-bezier(.66,1.36,.54,1.01);
+}
+#fluxo-caixa .fc-resumo .fc-card:nth-child(2){ animation-delay:.06s; }
+#fluxo-caixa .fc-resumo .fc-card:nth-child(3){ animation-delay:.12s; }
+
+#fluxo-caixa .fc-card{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 16px; border-radius:14px;
+  background:rgba(6,16,28,.75);
+  border:1px solid rgba(0,172,238,.25);
+  box-shadow: inset 0 0 10px rgba(0,172,238,.14);
+}
+#fluxo-caixa .fc-card-label{ color:#9ddfff; font-weight:600; font-size:.95rem; }
+#fluxo-caixa .fc-card-value{ font-weight:800; font-size:1.02rem; }
+
+/* Cores fixas */
+#fluxo-caixa #kpiEntradas{ color:#27d17f !important; }
+#fluxo-caixa #kpiSaidas{   color:#ff5a66 !important; }
+#fluxo-caixa #kpiSaldo{    color:#ffd84a !important; }
+
+/* ===== Tabela ===== */
+#fluxo-caixa .fc-table{ margin-top:15px; }
+/* Header de massa com entrada animada */
+#fluxo-caixa .fc-header-massa{
+  position:sticky; top:0; z-index:2;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; margin:2px 0 8px 0;
+  background:rgba(8,14,24,.96);
+  border:1px solid rgba(0,172,238,.25); border-radius:10px;
+  box-shadow: inset 0 0 12px rgba(0,172,238,.12);
+  animation: card-slide-in 0.75s cubic-bezier(.66,1.36,.54,1.01); animation-delay:.18s;
+}
+#fluxo-caixa .fc-bulk-left{ display:flex; align-items:center; gap:10px; font-family:'Orbitron',sans-serif; color:#cceeff; letter-spacing:.3px; font-weight:700; }
+
+/* Área rolável da tabela com leve entrada */
+#fluxo-caixa .fc-scroll{
+  max-height:420px; overflow-y:auto; overflow-x:hidden;
+  padding:6px 6px 10px; border-radius:10px;
+  animation: card-slide-in 0.75s cubic-bezier(.66,1.36,.54,1.01); animation-delay:.22s;
+}
+
+#fluxo-caixa table.fcx-table{ width:100%; border-collapse:separate; border-spacing:0 8px; }
+#fluxo-caixa table.fcx-table thead th{
+  text-align:left; padding:10px 12px; color:#9ddfff; font-weight:700;
+  background:rgba(6,16,28,.7); border:1px solid rgba(0,172,238,.25);
+}
+#fluxo-caixa table.fcx-table tbody tr{ background:rgba(5,12,20,.4); box-shadow: inset 0 0 0 1px rgba(0,172,238,.15); }
+#fluxo-caixa table.fcx-table tbody td{ padding:12px 14px; color:#c9f3ff; vertical-align:middle; }
+#fluxo-caixa table.fcx-table tbody td:first-child{ width:42px; }
+#fluxo-caixa table.fcx-table tbody td:last-child{ width:56px; }
+
+/* Badges */
+#fluxo-caixa .badge{ display:inline-block; padding:4px 10px; border-radius:30px; font-weight:700; font-size:.88rem; }
+#fluxo-caixa .badge-in{ color:#27d17f; background:rgba(39,209,127,.12); border:1px solid rgba(39,209,127,.35); }
+#fluxo-caixa .badge-out{ color:#ff5a66; background:rgba(255,90,102,.12); border:1px solid rgba(255,90,102,.35); }
+
+/* Lista vazia */
+#fluxo-caixa .fc-trow-empty{
+  display:flex; align-items:center; justify-content:center;
+  min-height:140px; text-align:center; color:#9ddfff; opacity:.85;
+  border:1px dashed rgba(0,172,238,.25); background:rgba(4,10,18,.35);
+  border-radius:10px; margin-top:10px;
+}
+
+/* Toasts */
+#fluxo-caixa #fxc-toasts{ position:fixed; right:18px; bottom:18px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+#fluxo-caixa .fxc-toast{
+  opacity:0; transform:translateY(8px);
+  padding:10px 14px; border-radius:10px; background:rgba(6,16,28,.95); color:#cceeff;
+  border:1px solid rgba(0,172,238,.35); transition:all .25s ease;
+}
+#fluxo-caixa .fxc-toast.show{ opacity:1; transform:translateY(0); }
+#fluxo-caixa .fxc-toast.success{ border-color:rgba(39,209,127,.55); }
+#fluxo-caixa .fxc-toast.error{ border-color:rgba(255,90,102,.55); }
+#fluxo-caixa .fxc-toast.warn{ border-color:rgba(255,216,74,.55); }
+
+/* ===== Responsivo ===== */
+@media (max-width:1200px){
+  #fluxo-caixa .fc-row-2{ grid-template-columns: 2fr 1fr minmax(360px, max-content); }
+  #fluxo-caixa .fc-filtros{
+    grid-template-columns:
+      minmax(150px, 1fr)
+      minmax(130px, .9fr)
+      minmax(130px, .9fr)
+      minmax(130px, .9fr)
+      minmax(460px, 1.2fr);
+  }
+  #fluxo-caixa .fc-actions-filter{ min-width:460px; }
+}
+@media (max-width:980px){
+  #fluxo-caixa .fc-row-1{ grid-template-columns:1fr 1fr; }
+  #fluxo-caixa .fc-row-2{ grid-template-columns:1fr; }
+  #fluxo-caixa .fc-actions{ justify-content:flex-start; }
+  #fluxo-caixa .fc-row-3{ grid-template-columns:1fr 1fr; }
+  #fluxo-caixa .fc-filtros{ grid-template-columns:1fr 1fr; }
+  #fluxo-caixa .fc-actions-filter{ justify-content:flex-start; flex-wrap:wrap; min-width:0; }
+}
+@media (max-width:700px){
+  #fluxo-caixa .fc-row-1, #fluxo-caixa .fc-row-3{ grid-template-columns:1fr; }
+  #fluxo-caixa .fc-resumo{ grid-template-columns:1fr; }
+}

@@ -1,0 +1,289 @@
+/* static/css/estoque.css */
+
+/* ——————————————————————————————
+   Animação de entrada dos cards
+——————————————————————————————————— */
+@keyframes card-slide-in {
+  0%   { opacity: 0; transform: translateX(-70px) scale(0.96); box-shadow: 0 0 0 #00acee00; }
+  60%  { opacity: 1; transform: translateX(10px) scale(1.01); box-shadow: 0 0 48px 8px #00acee55; }
+ 100%  { opacity: 1; transform: translateX(0) scale(1);     box-shadow: 0 0 24px 2px #00bfff42; }
+}
+
+/* ——————————————————————————————
+   Card principal de Estoque
+——————————————————————————————————— */
+.card-estoque {
+  width: 900px;
+  max-width: calc(100% - 38px);
+  margin: 0 auto;
+  padding: 18px 22px 24px 22px;
+  position: relative;
+  background: linear-gradient(180deg, rgba(10,16,30,0.96), rgba(8,12,24,0.96));
+  border-radius: 18px;
+  border: 2px solid #0cf;
+  box-shadow: 0 0 18px 0 #00acee66, inset 0 0 0 1px rgba(255,255,255,0.04);
+  animation: card-slide-in 0.75s cubic-bezier(.66,1.36,.54,1.01);
+}
+
+#card-estoque .close-card {
+  position: absolute; top: 17px; right: 32px;
+  background: none; border: none;
+  color: #00acee; font-size: 1.7rem;
+  cursor: pointer; border-radius: 50%;
+  padding: 5px 12px; transition: background .17s;
+}
+#card-estoque .close-card:hover {
+  background: rgba(0,172,238,0.13);
+  color: #fff;
+}
+
+#card-estoque .card-title {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; margin-bottom: 18px;
+}
+#card-estoque .card-title-icon {
+  width: 55px; height: 55px; object-fit: contain;
+  filter: drop-shadow(0 0 7px #00acee88);
+}
+#card-estoque .card-title span {
+  color: #fff; font-size: 1.95rem; font-weight: bold;
+  letter-spacing: .01em; text-shadow: 0 0 7px #00acee33;
+}
+
+/* ——————————————————————————————
+   FILTROS & BUSCA
+——————————————————————————————————— */
+#card-estoque .estoque-filtros { width: 100%; }
+
+/* GRID: 6 colunas = cada "coluna real" vira 2 frações */
+#card-estoque #filtro-estoque-form.filtros-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  margin-bottom: 7px;
+  align-items: center;
+  width: 100%;
+}
+
+/* Inputs/selects — tema intacto */
+#card-estoque #filtro-estoque-form .input-field,
+#card-estoque #filtro-estoque-form select {
+  padding: 11px 14px;
+  border-radius: 13px;
+  border: 1.5px solid rgba(0,172,238,.38);
+  background: rgba(10,16,30,.7);
+  color: #e8ecff;
+  outline: none;
+  min-height: 48px;
+  box-shadow: 0 0 0 0 rgba(0,172,238,0);
+  transition: border .14s, box-shadow .14s, background .14s;
+  width: 100%;
+  box-sizing: border-box;
+}
+#card-estoque #filtro-estoque-form select {
+  transition: border .15s, box-shadow .15s, background .14s;
+}
+#card-estoque #filtro-estoque-form select:focus,
+#card-estoque #filtro-estoque-form select:hover {
+  border: 2px solid #1bdcff;
+  box-shadow: 0 0 8px 0 #00acee77;
+  background: rgba(20,32,45,1);
+  color: #fff;
+}
+#card-estoque #filtro-estoque-form select option {
+  background: #141820;
+  color: #00acee;
+  padding: 9px 15px;
+}
+
+/* POSICIONAMENTO – 1ª linha */
+#card-estoque #filtro-estoque-form input[name="busca_nome"]       { grid-column: 1 / span 2; }
+#card-estoque #filtro-estoque-form input[name="busca_ean"]        { grid-column: 3 / span 2; }
+#card-estoque #filtro-estoque-form input[name="busca_fornecedor"] { grid-column: 5 / span 2; }
+
+/* Botões na 2ª linha */
+#card-estoque #filtro-estoque-form button.button,
+#card-estoque #filtro-estoque-form .button.primary {
+  grid-row: 2;
+  height: 40px;
+  min-height: 40px;
+  line-height: 40px;
+  padding: 0 12px;
+  font-size: .9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  justify-self: stretch;
+  width: 100%;
+}
+/* BUSCAR / NOVO */
+#card-estoque #filtro-estoque-form button[type="submit"] { grid-column: 1; }
+#card-estoque #filtro-estoque-form #btn-add-produto      { grid-column: 2; }
+
+/* Responsivo */
+@media (max-width: 980px) {
+  #card-estoque #filtro-estoque-form.filtros-row {
+    grid-template-columns: repeat(2, minmax(230px, 1fr));
+  }
+  #card-estoque #filtro-estoque-form input[name="busca_nome"]       { grid-column: 1 / span 2; }
+  #card-estoque #filtro-estoque-form input[name="busca_ean"]        { grid-column: 1; }
+  #card-estoque #filtro-estoque-form input[name="busca_fornecedor"] { grid-column: 2; }
+  #card-estoque #filtro-estoque-form button[type="submit"] { grid-column: 1; }
+  #card-estoque #filtro-estoque-form #btn-add-produto      { grid-column: 2; }
+}
+@media (max-width: 620px) {
+  #card-estoque #filtro-estoque-form.filtros-row {
+    grid-template-columns: minmax(230px, 1fr);
+  }
+  #card-estoque #filtro-estoque-form input[name="busca_nome"],
+  #card-estoque #filtro-estoque-form input[name="busca_ean"],
+  #card-estoque #filtro-estoque-form input[name="busca_fornecedor"],
+  #card-estoque #filtro-estoque-form button[type="submit"],
+  #card-estoque #filtro-estoque-form #btn-add-produto { grid-column: 1; }
+}
+
+/* ——————————————————————————————
+   LISTA DE PRODUTOS
+——————————————————————————————————— */
+#card-estoque .estoque-lista {
+  width: 100%;
+  background: rgba(8,12,24,.65);
+  border: 1px solid rgba(0,172,238,.22);
+  border-radius: 14px;
+  min-height: 68px;
+  color: #fff;
+  padding: 14px 16px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+}
+
+/* === NOVO: viewport com no máx. 5 itens + scroll interno === */
+#card-estoque .estoque-lista .estoque-scroll{
+  /* cada item costuma ocupar ~60–68px (nome + detalhes).
+     ajuste fino trocando a variável abaixo, se precisar */
+  --altura-item: 64px;
+  max-height: calc(var(--altura-item) * 5);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+  border-radius: 10px;
+}
+
+/* Cabeçalho "Selecionar todos" gruda no topo enquanto rola */
+#card-estoque #estoque-ul .estoque-header-massa{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgba(10,16,30,.96);
+  backdrop-filter: saturate(110%);
+  border-bottom: 1px solid rgba(128,0,255,.25);
+}
+
+/* Scrollbar no padrão CRV */
+#card-estoque .estoque-lista .estoque-scroll::-webkit-scrollbar{ width: 10px; }
+#card-estoque .estoque-lista .estoque-scroll::-webkit-scrollbar-track{ background: transparent; }
+#card-estoque .estoque-lista .estoque-scroll::-webkit-scrollbar-thumb{
+  background: linear-gradient(180deg,#00acee55,#00aceeaa);
+  border-radius: 8px;
+  border: 2px solid rgba(12,18,32,0.85);
+}
+
+/* ——————————————————————————————
+   BOTÕES DE AÇÃO GERAL
+——————————————————————————————————— */
+#card-estoque .btn-row {
+  display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;
+}
+#card-estoque .estoque-botoes .btn-row { margin-top: 10px; }
+
+/* ——————————————————————————————
+   CARD DE SUGESTÕES
+——————————————————————————————————— */
+#card-estoque .card-sugestao {
+  background: rgba(22,28,38,0.97);
+  border: 2px solid #00acee99;
+  border-radius: 16px; padding: 18px 22px;
+  box-shadow: 0 0 16px 2px #00acee33;
+  color: #fff; font-size: 1rem; margin: 24px 0;
+}
+#card-estoque .card-sugestao h3 {
+  color: #00acee; text-shadow: 0 0 5px #00acee55;
+  font-size: 1.25rem; margin-bottom: 12px;
+}
+#card-estoque .card-sugestao ul { list-style: none; margin: 0; padding: 0; }
+#card-estoque .card-sugestao ul li { padding: 6px 0; border-bottom: 1px solid #00acee33; }
+#card-estoque .card-sugestao ul li:last-child { border-bottom: none; }
+
+/* ——————————————————————————————
+   MODAIS (escopadas ao modal do estoque)
+——————————————————————————————————— */
+#modalAddProduto .modal-bg,
+#modalAddProduto .modal {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+}
+#modalAddProduto .modal-content .card-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.25rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+#modalAddProduto .modal-card {
+  background: rgba(8,12,24,.96);
+  border: 2px solid rgba(0,172,238,.45);
+  box-shadow: 0 0 16px rgba(0,172,238,.28);
+  color: #fff;
+  border-radius: 14px;
+  padding: 16px 18px;
+  position: relative;
+  width: min(760px, 92vw);
+}
+#modalAddProduto .modal-card.modal-scroll {
+  max-height: 80vh; overflow-y: auto; padding-right: 12px;
+}
+#modalAddProduto .close-modal {
+  position: absolute; top: 12px; right: 12px;
+  background: none; border: none;
+  color: #00acee; font-size: 1.8rem;
+  cursor: pointer; padding: 4px 8px; border-radius: 50%;
+  transition: background .17s;
+}
+#modalAddProduto .close-modal:hover { background: rgba(0,172,238,0.13); color: #fff; }
+
+/* ——————————————————————————————
+   SCROLL custom do modal
+——————————————————————————————————— */
+#modalAddProduto .modal-card.modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,172,238,0.6) rgba(0,0,0,0.2);
+}
+#modalAddProduto .modal-card.modal-scroll::-webkit-scrollbar { width: 6px; }
+#modalAddProduto .modal-card.modal-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+#modalAddProduto .modal-card.modal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0,172,238,0.6); border-radius: 3px;
+}
+
+/* Selecionar todos — só a cor (padrão img 2) */
+#card-estoque .bulkbar label,
+#card-estoque label[for*="selecionar"],
+#card-estoque label[for*="select"]{
+  color:#bfe4ff !important;
+}
+
+/* === NOVO: contador "X selecionados" (mesmo visual do Caixa) === */
+#card-estoque .est-bulk-left{ display:flex; align-items:center; gap:8px; }
+#card-estoque .est-bulk-count{
+  margin-left:10px;
+  font-family:'Orbitron',sans-serif;
+  font-weight:700;
+  letter-spacing:.3px;
+  color:#cceeff;
+  user-select:none;
+}
