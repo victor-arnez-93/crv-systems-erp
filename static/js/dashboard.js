@@ -9,7 +9,7 @@ const FLUXO_LISTAR_URL  = '/fluxo_caixa/listar/';
 const UNSPLASH_KEY         = "_ieWpFKCgtSHFcJW3ftiwO5Uw_o00O2FmlhKdzJEhec";
 const ICON_DAY             = "/static/icones/ico_dia.png";
 const ICON_NIGHT           = "/static/icones/ico_noite.png";
-const OPENWEATHER_API_KEY  = "6c6c927235254cb5fed1281c57d91f11";
+const OPENWEATHER_API_KEY  = "OPENWEATHER_KEY";
 const DEFAULT_CITY         = "São Paulo,BR";
 
 // ========= VARIÁVEIS ==========
