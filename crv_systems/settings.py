@@ -18,13 +18,12 @@ DEBUG = env.bool("DEBUG", default=True)
 # ========================
 # HOSTS E CSRF
 # ========================
-ALLOWED_HOSTS: list[str] = [
+ALLOWED_HOSTS = [
+    'crv-systems-erp.onrender.com',
     'localhost',
     '127.0.0.1',
-    '.ngrok-free.app',
-    '.ngrok.app',
-    '3e56-2804-111c-80ad-8800-d089-2302-b2b-25c0.ngrok-free.app',
 ]
+
 CSRF_TRUSTED_ORIGINS = [
     'https://*.ngrok-free.app',
     'https://*.ngrok.app',
